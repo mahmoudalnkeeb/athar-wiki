@@ -64,6 +64,10 @@ export function renderWikiArticle(
       </header>
 
       ${renderReadingSettings()}
+      <button class="reading-settings__floating-toggle" type="button" aria-expanded="false" aria-controls="reading-settings-panel">
+        <span aria-hidden="true">أ</span>
+        <span>إعدادات القراءة</span>
+      </button>
 
       ${toc.length > 0 ? renderTocHtml(toc, article.slug) : ''}
 
@@ -143,14 +147,7 @@ export function renderWikiArticle(
 
 function renderReadingSettings(): string {
   return `
-    <section class="reading-settings" aria-labelledby="reading-settings-title">
-      <div class="reading-settings__header">
-        <h2 id="reading-settings-title">إعدادات القراءة</h2>
-        <button class="reading-settings__toggle" type="button" aria-expanded="false" aria-controls="reading-settings-panel">
-          <span>تخصيص القراءة</span>
-          <span class="reading-settings__chevron" aria-hidden="true">⌄</span>
-        </button>
-      </div>
+    <section class="reading-settings" aria-label="إعدادات القراءة">
       <div class="reading-settings__panel" id="reading-settings-panel" hidden>
         <fieldset class="reading-settings__group">
           <legend>حجم النص</legend>
@@ -183,10 +180,11 @@ function renderReadingSettings(): string {
 
 function setupReadingSettings(container: HTMLElement, signal: AbortSignal): void {
   const content = container.querySelector<HTMLElement>('#article-content')
-  const toggle = container.querySelector<HTMLButtonElement>('.reading-settings__toggle')
+  const settingsRoot = container.querySelector<HTMLElement>('.reading-settings')
+  const toggles = container.querySelectorAll<HTMLButtonElement>('.reading-settings__toggle, .reading-settings__floating-toggle')
   const panel = container.querySelector<HTMLElement>('.reading-settings__panel')
   const reset = container.querySelector<HTMLButtonElement>('.reading-settings__reset')
-  if (!content || !toggle || !panel || !reset) return
+  if (!content || !settingsRoot || toggles.length === 0 || !panel || !reset) return
 
   let settings = readReadingSettings()
 
@@ -221,10 +219,23 @@ function setupReadingSettings(container: HTMLElement, signal: AbortSignal): void
     }
   }
 
-  toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true'
-    toggle.setAttribute('aria-expanded', String(!expanded))
-    panel.hidden = expanded
+  const setExpanded = (expanded: boolean): void => {
+    settingsRoot.classList.toggle('is-open', expanded)
+    panel.hidden = !expanded
+    toggles.forEach((toggle) => toggle.setAttribute('aria-expanded', String(expanded)))
+  }
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      setExpanded(toggle.getAttribute('aria-expanded') !== 'true')
+    }, { signal })
+  })
+
+  container.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && settingsRoot.classList.contains('is-open')) {
+      setExpanded(false)
+      container.querySelector<HTMLButtonElement>('.reading-settings__floating-toggle')?.focus()
+    }
   }, { signal })
 
   container.querySelectorAll<HTMLButtonElement>('[data-reading-setting]').forEach((button) => {
