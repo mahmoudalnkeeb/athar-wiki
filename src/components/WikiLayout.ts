@@ -133,6 +133,7 @@ export function renderLayout(shell: HTMLElement): LayoutController {
         </div>
         <nav class="wiki-footer__nav" aria-label="روابط التذييل">
           <a href="#/wiki">تصفح كل المقالات</a>
+          <a href="https://github.com/mahmoudalnkeeb/athar-wiki" target="_blank" rel="noreferrer">أثر على GitHub / Athar on GitHub</a>
           <span id="footer-count">${registry.length === 0 ? 'لا توجد مقالات بعد' : registry.length === 1 ? 'مقال واحد' : registry.length === 2 ? 'مقالان' : registry.length <= 10 ? registry.length + ' مقالات' : registry.length + ' مقالاً'}</span>
           ${cacheControl}
         </nav>
