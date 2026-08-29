@@ -1,0 +1,140 @@
+@import './tokens.css';
+@import './patterns.css';
+
+/* Minimal reset. */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+  color-scheme: light;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Prevent layout shift from scrollbar */
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: rgba(201, 168, 106, 0.25);
+}
+
+/* Arabic typographic tweaks */
+:where(h1, h2, h3, h4) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  color: var(--color-text-heading);
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+
+p { margin: 0 0 1em; }
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+a,
+button,
+input { touch-action: manipulation; }
+a:hover { color: var(--color-link-hover); }
+a:focus-visible {
+  outline: 2px solid var(--islamic-gold-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+/* Gold selection. */
+::selection { background: var(--islamic-gold-300); color: var(--islamic-ink-900); }
+
+/* Subtle emerald scrollbar. */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--islamic-emerald-100); border-radius: 999px; border: 2px solid var(--color-bg); }
+*::-webkit-scrollbar-thumb:hover { background: var(--islamic-emerald-500); }
+
+/* Utility: arch frame (إطار مقوس) */
+.arch-frame {
+  border: var(--border-gold-double);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+/* Utility: gold divider. */
+.gold-divider {
+  height: 1px;
+  background: var(--color-border-accent);
+  opacity: 0.7;
+  border: 0;
+  margin: var(--space-8) 0;
+}
+
+/* Utility: kashida-friendly justification for Arabic */
+.justify-ar { text-align: start; text-justify: auto; }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-sm);
+  transform: translateY(-150%);
+  transition: transform var(--duration-fast) var(--ease-out);
+  z-index: 9999;
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+body.drawer-open { overflow: hidden; }
+
+.noscript-message { padding: var(--space-8) var(--space-4); text-align: center; font-family: var(--font-body); }
+
+/* Content measure */
+.prose {
+  max-width: var(--content-max);
+  margin-inline-start: auto;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+.prose :where(h2, h3, h4) { scroll-margin-top: calc(var(--header-height) + var(--space-4)); }
+.prose p + p { margin-block-start: 1em; }
+
+/* Shimmer placeholder for lazy images */
+.img-placeholder {
+  background: var(--color-bg-subtle);
+}
+
+.clipboard-fallback {
+  position: fixed;
+  inset-inline-start: -9999px;
+  inset-block-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+/* Reduced data: hide decorative heavy patterns when save-data. */
+@media (prefers-reduced-data: reduce) {
+  .pattern-heavy { display: none !important; }
+}

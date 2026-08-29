@@ -1,0 +1,15 @@
+{
+  "name": "أثر: التاريخ الإسلامي",
+  "short_name": "أثر",
+  "description": "من السيرة إلى الحضارة. مرجع عربي خفيف للتاريخ الإسلامي يعمل حتى مع اتصال ضعيف.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fdf8ec",
+  "theme_color": "#fffdf6",
+  "icons": [
+    { "src": "./athar_logo_without_wordmark.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

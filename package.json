@@ -1,0 +1,28 @@
+{
+  "name": "a-piece-of-history",
+  "private": false,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "موسوعة تاريخية — ويكي خفيفة وسريعة تعمل بلا خادم، مصممة للاتصالات الضعيفة",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "postbuild": "node scripts/generate-sitemap.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs public/sitemap.xml",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "article:editor": "node scripts/article-editor.mjs",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
+  },
+  "dependencies": {
+    "lucide": "^1.35.0"
+  }
+}

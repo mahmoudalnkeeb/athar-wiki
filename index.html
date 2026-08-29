@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fffdf6" />
+    <meta name="description" content="أثر: مرجع التاريخ الإسلامي. مقالات بالعربية من السيرة إلى الحضارة، حتى مع اتصال ضعيف." />
+    <meta name="robots" content="index,follow" />
+
+    <!-- Performance: preconnect fonts, DNS prefetch -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Amiri for body (classical Arabic) + Tajawal for UI + Cairo fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="icon" type="image/png" href="/athar_logo_without_wordmark.png" />
+    <link rel="apple-touch-icon" href="/athar_logo_without_wordmark.png" />
+    <title>أثر: التاريخ الإسلامي</title>
+
+    <!-- Critical CSS hint: styles are imported via JS but vite inlines small CSS -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Open Graph minimal -->
+    <meta property="og:title" content="أثر: التاريخ الإسلامي" />
+    <meta property="og:description" content="من السيرة إلى الحضارة. مرجع عربي هادئ للتاريخ الإسلامي." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="أثر" />
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/athar_logo.png" />
+    <meta property="og:image:alt" content="شعار أثر" />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <div class="noscript-message">
+        هذه الموسوعة تحتاج تفعيل JavaScript. جميع المقالات تُحمَّل في المتصفح فقط دون أي خادم.<br />
+        This wiki requires JavaScript. All articles are client-side only.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

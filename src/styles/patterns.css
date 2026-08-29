@@ -1,0 +1,64 @@
+/* ─────────────────────────────────────────
+   Islamic Geometric Patterns: زخارف هندسية
+   Pure CSS/SVG. No images or extra requests.
+   Heavy patterns are opt-in via .pattern-heavy
+   ───────────────────────────────────────── */
+
+/* Arabesque top bar: thin, single element, no image. */
+.arabesque-bar {
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* Arch header background: subtle pointed arch via CSS clip. */
+.arch-bg {
+  background: var(--color-bg-subtle);
+  position: relative;
+}
+
+/* Bismillah-style ornamental divider in pure CSS. */
+.bismillah-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--islamic-gold-700);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+}
+.bismillah-divider::before,
+.bismillah-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-accent);
+}
+.bismillah-divider .dot {
+  width: 6px; height: 6px;
+  background: var(--islamic-gold-500);
+  transform: rotate(45deg);
+  flex: none;
+}
+
+/* Corner ornaments: lightweight L shapes. */
+.corner-ornament {
+  position: relative;
+}
+.corner-ornament::before,
+.corner-ornament::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: var(--islamic-gold-300);
+  opacity: 0.7;
+}
+.corner-ornament::before {
+  inset-block-start: 10px; inset-inline-start: 10px;
+  border-block-start: 2px solid var(--islamic-gold-300);
+  border-inline-start: 2px solid var(--islamic-gold-300);
+}
+.corner-ornament::after {
+  inset-block-end: 10px; inset-inline-end: 10px;
+  border-block-end: 2px solid var(--islamic-gold-300);
+  border-inline-end: 2px solid var(--islamic-gold-300);
+}

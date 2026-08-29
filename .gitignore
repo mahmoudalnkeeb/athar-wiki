@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+.vite
+.codex
+.playwright-cli
+output
+public/*.mp3
+public/*.wav
+.env
+.DS_Store
