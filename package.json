@@ -1,7 +1,7 @@
 {
   "name": "a-piece-of-history",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "موسوعة تاريخية — ويكي خفيفة وسريعة تعمل بلا خادم، مصممة للاتصالات الضعيفة",
   "license": "MIT",
