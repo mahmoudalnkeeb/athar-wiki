@@ -6,7 +6,7 @@
   "description": "موسوعة تاريخية — ويكي خفيفة وسريعة تعمل بلا خادم، مصممة للاتصالات الضعيفة",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": ">=26"
   },
   "scripts": {
     "dev": "vite",
@@ -15,14 +15,19 @@
     "sitemap": "node scripts/generate-sitemap.mjs public/sitemap.xml",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
+    "lint": "oxlint src scripts vite.config.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "article:editor": "node scripts/article-editor.mjs",
     "test": "node --test scripts/*.test.mjs"
   },
   "devDependencies": {
-    "typescript": "~6.0.2",
+    "oxlint": "^1.80.0",
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2",
     "vite": "^8.2.2"
   },
   "dependencies": {
-    "lucide": "^1.35.0"
+    "lucide": "^1.37.0"
   }
 }
