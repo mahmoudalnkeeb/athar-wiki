@@ -28,7 +28,9 @@ function createFetchHarness({ cachedResponse, networkError }) {
   vm.runInNewContext(serviceWorkerSource, {
     self,
     caches: cacheStorage,
-    fetch: async () => { throw networkError },
+    fetch: async () => {
+      throw networkError
+    },
     URL,
     location: { origin: 'https://example.test' },
     Request,
@@ -41,7 +43,9 @@ function createFetchHarness({ cachedResponse, networkError }) {
     let responsePromise
     fetchHandler({
       request,
-      respondWith(value) { responsePromise = Promise.resolve(value) },
+      respondWith(value) {
+        responsePromise = Promise.resolve(value)
+      },
     })
     return responsePromise
   }

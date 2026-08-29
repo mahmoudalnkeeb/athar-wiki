@@ -10,6 +10,11 @@
   "background_color": "#fdf8ec",
   "theme_color": "#fffdf6",
   "icons": [
-    { "src": "./athar_logo_without_wordmark.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "./athar_logo_without_wordmark.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

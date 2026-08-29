@@ -1,4 +1,4 @@
-@import url("../src/styles/tokens.css");
+@import url('../src/styles/tokens.css');
 
 :root {
   --editor-frame: 1240px;
@@ -300,7 +300,7 @@ textarea::placeholder {
   font-size: var(--text-sm);
 }
 .tool-button:hover,
-.tool-button[aria-pressed="true"],
+.tool-button[aria-pressed='true'],
 .format-select:hover {
   border-color: var(--color-accent);
   background: var(--editor-surface-accent);
@@ -490,10 +490,10 @@ textarea::placeholder {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
 }
-.status[data-state="success"] {
+.status[data-state='success'] {
   color: var(--color-text-accent);
 }
-.status[data-state="error"] {
+.status[data-state='error'] {
   color: #8d302b;
 }
 .preview-panel {

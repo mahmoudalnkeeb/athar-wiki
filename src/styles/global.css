@@ -4,7 +4,9 @@
 /* Minimal reset. */
 *,
 *::before,
-*::after { box-sizing: border-box; }
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
@@ -13,7 +15,9 @@ html {
   color-scheme: light;
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -38,12 +42,22 @@ body {
   color: var(--color-text-heading);
   text-wrap: balance;
 }
-h1 { font-size: var(--text-4xl); }
-h2 { font-size: var(--text-3xl); }
-h3 { font-size: var(--text-2xl); }
-h4 { font-size: var(--text-xl); }
+h1 {
+  font-size: var(--text-4xl);
+}
+h2 {
+  font-size: var(--text-3xl);
+}
+h3 {
+  font-size: var(--text-2xl);
+}
+h4 {
+  font-size: var(--text-xl);
+}
 
-p { margin: 0 0 1em; }
+p {
+  margin: 0 0 1em;
+}
 a {
   color: var(--color-link);
   text-decoration-thickness: 1.5px;
@@ -52,24 +66,46 @@ a {
 }
 a,
 button,
-input { touch-action: manipulation; }
-a:hover { color: var(--color-link-hover); }
+input {
+  touch-action: manipulation;
+}
+a:hover {
+  color: var(--color-link-hover);
+}
 a:focus-visible {
   outline: 2px solid var(--islamic-gold-500);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-img, svg { display: block; max-width: 100%; }
-img { height: auto; }
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
 
 /* Gold selection. */
-::selection { background: var(--islamic-gold-300); color: var(--islamic-ink-900); }
+::selection {
+  background: var(--islamic-gold-300);
+  color: var(--islamic-ink-900);
+}
 
 /* Subtle emerald scrollbar. */
-*::-webkit-scrollbar { width: 10px; height: 10px; }
-*::-webkit-scrollbar-thumb { background: var(--islamic-emerald-100); border-radius: 999px; border: 2px solid var(--color-bg); }
-*::-webkit-scrollbar-thumb:hover { background: var(--islamic-emerald-500); }
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--islamic-emerald-100);
+  border-radius: 999px;
+  border: 2px solid var(--color-bg);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--islamic-emerald-500);
+}
 
 /* Utility: arch frame (إطار مقوس) */
 .arch-frame {
@@ -89,7 +125,10 @@ img { height: auto; }
 }
 
 /* Utility: kashida-friendly justification for Arabic */
-.justify-ar { text-align: start; text-justify: auto; }
+.justify-ar {
+  text-align: start;
+  text-justify: auto;
+}
 
 /* Skip link */
 .skip-link {
@@ -104,11 +143,19 @@ img { height: auto; }
   transition: transform var(--duration-fast) var(--ease-out);
   z-index: 9999;
 }
-.skip-link:focus-visible { transform: translateY(0); }
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
 
-body.drawer-open { overflow: hidden; }
+body.drawer-open {
+  overflow: hidden;
+}
 
-.noscript-message { padding: var(--space-8) var(--space-4); text-align: center; font-family: var(--font-body); }
+.noscript-message {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  font-family: var(--font-body);
+}
 
 /* Content measure */
 .prose {
@@ -117,8 +164,12 @@ body.drawer-open { overflow: hidden; }
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
 }
-.prose :where(h2, h3, h4) { scroll-margin-top: calc(var(--header-height) + var(--space-4)); }
-.prose p + p { margin-block-start: 1em; }
+.prose :where(h2, h3, h4) {
+  scroll-margin-top: calc(var(--header-height) + var(--space-4));
+}
+.prose p + p {
+  margin-block-start: 1em;
+}
 
 /* Shimmer placeholder for lazy images */
 .img-placeholder {
@@ -136,5 +187,7 @@ body.drawer-open { overflow: hidden; }
 
 /* Reduced data: hide decorative heavy patterns when save-data. */
 @media (prefers-reduced-data: reduce) {
-  .pattern-heavy { display: none !important; }
+  .pattern-heavy {
+    display: none !important;
+  }
 }

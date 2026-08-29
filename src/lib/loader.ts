@@ -7,12 +7,16 @@
 
 export function isSaveData(): boolean {
   // navigator.connection.saveData. Respect data-saver mode.
-  const conn = navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }
+  const conn = navigator as unknown as {
+    connection?: { saveData?: boolean; effectiveType?: string }
+  }
   return Boolean(conn.connection?.saveData)
 }
 
 export function isSlowConnection(): boolean {
-  const conn = navigator as unknown as { connection?: { effectiveType?: string; saveData?: boolean } }
+  const conn = navigator as unknown as {
+    connection?: { effectiveType?: string; saveData?: boolean }
+  }
   const t = conn.connection?.effectiveType
   return t === 'slow-2g' || t === '2g' || Boolean(conn.connection?.saveData)
 }
@@ -78,7 +82,11 @@ export async function withRetry<T>(fn: () => Promise<T>, retries = 1): Promise<T
 
 /** Prefetch on idle at minimal priority. */
 export function onIdle(cb: () => void, timeout = 2000): void {
-  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void }).requestIdleCallback
+  const ric = (
+    window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void
+    }
+  ).requestIdleCallback
   if (ric) ric(cb, { timeout })
   else setTimeout(cb, 300)
 }

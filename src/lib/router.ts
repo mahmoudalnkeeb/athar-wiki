@@ -47,12 +47,18 @@ export function getRoute(): Route {
 
 export function toHash(route: Route): string {
   switch (route.name) {
-    case 'home': return '#/'
-    case 'all': return '#/wiki'
-    case 'article': return `#/wiki/${encodeURIComponent(route.slug)}`
-    case 'category': return `#/category/${encodeURIComponent(route.category)}`
-    case 'search': return `#/search?q=${encodeURIComponent(route.q)}`
-    case 'not-found': return `#${route.path}`
+    case 'home':
+      return '#/'
+    case 'all':
+      return '#/wiki'
+    case 'article':
+      return `#/wiki/${encodeURIComponent(route.slug)}`
+    case 'category':
+      return `#/category/${encodeURIComponent(route.category)}`
+    case 'search':
+      return `#/search?q=${encodeURIComponent(route.q)}`
+    case 'not-found':
+      return `#${route.path}`
   }
 }
 
@@ -78,7 +84,8 @@ export function prefetchArticle(load: () => Promise<unknown>): void {
   const doPrefetch = (): void => {
     void load().catch(() => {})
   }
-  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback
+  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void) => void })
+    .requestIdleCallback
   if (ric) ric(doPrefetch)
   else setTimeout(doPrefetch, 300)
 }

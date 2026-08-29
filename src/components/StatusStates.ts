@@ -45,5 +45,7 @@ export function renderLoadError(container: HTMLElement, slug: string, detail: st
       </div>
     </div>
   `
-  container.querySelector('#retry-btn')?.addEventListener('click', () => navigate({ name: 'article', slug }))
+  container
+    .querySelector('#retry-btn')
+    ?.addEventListener('click', () => navigate({ name: 'article', slug }))
 }

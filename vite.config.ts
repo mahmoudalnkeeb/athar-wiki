@@ -12,23 +12,24 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           // Keep each article in its own chunk (lazy loaded)
-          if (id.includes('/src/articles/')) return 'article-' + id.split('/articles/')[1].split('/')[0].split('.')[0]
+          if (id.includes('/src/articles/'))
+            return 'article-' + id.split('/articles/')[1].split('/')[0].split('.')[0]
           if (id.includes('/src/components/')) return 'components'
         },
         // Short hashed filenames + predictable
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+      },
     },
     // No sourcemaps in prod for smaller payload (keep for dev)
-    sourcemap: false
+    sourcemap: false,
   },
   // Preload only critical; rest is lazy
   server: {
     headers: {
       // Hint for perf on dev
-      'Cache-Control': 'no-store'
-    }
-  }
+      'Cache-Control': 'no-store',
+    },
+  },
 })

@@ -3,35 +3,35 @@
  * Reusable layout: header + sidebar + main + footer
  * Islamic design: manuscript header, emerald typography, gold accents
  */
-import { getCategories, registry } from "../data/registry.ts";
-import { navigate } from "../lib/router.ts";
-import { escapeHtml } from "../lib/dom.ts";
-import { showToast } from "../lib/feedback.ts";
-import { brand } from "../data/brand.ts";
-import type { Route } from "../lib/router.ts";
-import type { TocItem } from "../data/types.ts";
-import { createIcons, Menu, Search, X } from "lucide";
+import { getCategories, registry } from '../data/registry.ts'
+import { navigate } from '../lib/router.ts'
+import { escapeHtml } from '../lib/dom.ts'
+import { showToast } from '../lib/feedback.ts'
+import { brand } from '../data/brand.ts'
+import type { Route } from '../lib/router.ts'
+import type { TocItem } from '../data/types.ts'
+import { createIcons, Menu, Search, X } from 'lucide'
 
 export interface ArticleSidebarContext {
-  slug: string;
-  category: string;
-  toc: TocItem[];
+  slug: string
+  category: string
+  toc: TocItem[]
 }
 
 export interface LayoutController {
-  mainEl: HTMLElement;
-  searchInputs: HTMLInputElement[];
-  sidebarEl: HTMLElement;
-  closeMenu: (restoreFocus?: boolean) => void;
-  setRoute: (route: Route, category?: string) => void;
-  setArticleContext: (context?: ArticleSidebarContext) => void;
-  setSearchQuery: (query: string) => void;
+  mainEl: HTMLElement
+  searchInputs: HTMLInputElement[]
+  sidebarEl: HTMLElement
+  closeMenu: (restoreFocus?: boolean) => void
+  setRoute: (route: Route, category?: string) => void
+  setArticleContext: (context?: ArticleSidebarContext) => void
+  setSearchQuery: (query: string) => void
 }
 
 export function renderLayout(shell: HTMLElement): LayoutController {
   const cacheControl = import.meta.env.DEV
     ? '<a href="#" id="clear-cache-link">مسح التخزين المؤقت</a>'
-    : "";
+    : ''
 
   shell.innerHTML = `
     <a class="skip-link" href="#main-content">تخطَّ إلى المحتوى</a>
@@ -102,7 +102,7 @@ export function renderLayout(shell: HTMLElement): LayoutController {
             />
           </div>
           <a href="#/" class="wiki-nav__home">الرئيسية</a>
-          <a href="#/wiki" class="wiki-nav__all">كل المقالات <span class="badge">${registry.length.toLocaleString("ar-EG")}</span></a>
+          <a href="#/wiki" class="wiki-nav__all">كل المقالات <span class="badge">${registry.length.toLocaleString('ar-EG')}</span></a>
           <div class="wiki-nav__global-categories">
             <div class="gold-divider" role="separator"></div>
             <h2 class="wiki-nav__heading">التصنيفات</h2>
@@ -133,221 +133,200 @@ export function renderLayout(shell: HTMLElement): LayoutController {
         </div>
         <nav class="wiki-footer__nav" aria-label="روابط التذييل">
           <a href="#/wiki">تصفح كل المقالات</a>
-          <span id="footer-count">${registry.length === 0 ? "لا توجد مقالات بعد" : registry.length === 1 ? "مقال واحد" : registry.length === 2 ? "مقالان" : registry.length <= 10 ? registry.length + " مقالات" : registry.length + " مقالاً"}</span>
+          <span id="footer-count">${registry.length === 0 ? 'لا توجد مقالات بعد' : registry.length === 1 ? 'مقال واحد' : registry.length === 2 ? 'مقالان' : registry.length <= 10 ? registry.length + ' مقالات' : registry.length + ' مقالاً'}</span>
           ${cacheControl}
         </nav>
       </div>
     </footer>
-  `;
+  `
 
   // Categories
-  const catList = shell.querySelector<HTMLUListElement>("#category-list")!;
-  const cats = getCategories();
+  const catList = shell.querySelector<HTMLUListElement>('#category-list')!
+  const cats = getCategories()
   if (cats.length === 0) {
-    catList.innerHTML = `<li class="wiki-nav__empty">لا توجد تصنيفات بعد. أضف أول مقال من <code>src/articles/</code></li>`;
+    catList.innerHTML = `<li class="wiki-nav__empty">لا توجد تصنيفات بعد. أضف أول مقال من <code>src/articles/</code></li>`
   } else {
     catList.innerHTML = cats
       .map(
         (c) =>
           `<li><a href="#/category/${encodeURIComponent(c)}" data-category-link>${escapeHtml(c)}</a></li>`,
       )
-      .join("");
+      .join('')
   }
 
   // Search wiring: both responsive locations share one URL-driven query.
-  const searchInputs = Array.from(
-    shell.querySelectorAll<HTMLInputElement>("[data-wiki-search]"),
-  );
-  let t: number | undefined;
+  const searchInputs = Array.from(shell.querySelectorAll<HTMLInputElement>('[data-wiki-search]'))
+  let t: number | undefined
   const setSearchQuery = (query: string): void => {
-    window.clearTimeout(t);
+    window.clearTimeout(t)
     searchInputs.forEach((input) => {
-      input.value = query;
-    });
-  };
+      input.value = query
+    })
+  }
   const handleSearchInput = (input: HTMLInputElement): void => {
     searchInputs.forEach((other) => {
-      if (other !== input) other.value = input.value;
-    });
-    window.clearTimeout(t);
+      if (other !== input) other.value = input.value
+    })
+    window.clearTimeout(t)
     t = window.setTimeout(() => {
-      const q = input.value.trim();
-      if (q) navigate({ name: "search", q });
-      else if (location.hash.startsWith("#/search")) navigate({ name: "home" });
-    }, 500);
-  };
+      const q = input.value.trim()
+      if (q) navigate({ name: 'search', q })
+      else if (location.hash.startsWith('#/search')) navigate({ name: 'home' })
+    }, 500)
+  }
   searchInputs.forEach((input) => {
-    input.addEventListener("input", () => handleSearchInput(input));
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        window.clearTimeout(t);
-        const q = input.value.trim();
-        if (q) navigate({ name: "search", q });
+    input.addEventListener('input', () => handleSearchInput(input))
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        window.clearTimeout(t)
+        const q = input.value.trim()
+        if (q) navigate({ name: 'search', q })
       }
-    });
-  });
+    })
+  })
 
   // Mobile drawer
-  const menuBtn = shell.querySelector<HTMLButtonElement>("#menu-toggle")!;
-  const closeBtn = shell.querySelector<HTMLButtonElement>("#menu-close")!;
-  const sidebar = shell.querySelector<HTMLElement>("#wiki-sidebar")!;
-  const backdrop = shell.querySelector<HTMLElement>("#menu-backdrop")!;
+  const menuBtn = shell.querySelector<HTMLButtonElement>('#menu-toggle')!
+  const closeBtn = shell.querySelector<HTMLButtonElement>('#menu-close')!
+  const sidebar = shell.querySelector<HTMLElement>('#wiki-sidebar')!
+  const backdrop = shell.querySelector<HTMLElement>('#menu-backdrop')!
   const refreshIcons = (): void => {
-    createIcons({ icons: { Menu, Search, X } });
-  };
-  refreshIcons();
+    createIcons({ icons: { Menu, Search, X } })
+  }
+  refreshIcons()
 
-  const isMobile = (): boolean =>
-    window.matchMedia("(max-width: 1199px)").matches;
+  const isMobile = (): boolean => window.matchMedia('(max-width: 1199px)').matches
   const setInert = (element: HTMLElement, inert: boolean): void => {
-    if ("inert" in element) element.inert = inert;
-  };
+    if ('inert' in element) element.inert = inert
+  }
   const syncDrawerMode = (): void => {
-    const mobile = isMobile();
-    const open = sidebar.classList.contains("is-open");
-    setInert(sidebar, mobile && !open);
-    sidebar.setAttribute("aria-hidden", String(mobile && !open));
+    const mobile = isMobile()
+    const open = sidebar.classList.contains('is-open')
+    setInert(sidebar, mobile && !open)
+    sidebar.setAttribute('aria-hidden', String(mobile && !open))
     if (!mobile) {
-      sidebar.classList.remove("is-open");
-      backdrop.classList.remove("is-visible");
-      document.body.classList.remove("drawer-open");
-      menuBtn.removeAttribute("aria-hidden");
-      menuBtn.removeAttribute("tabindex");
-      menuBtn.setAttribute("aria-expanded", "false");
-      menuBtn.setAttribute("aria-label", "فتح القائمة");
-      menuBtn
-        .querySelector<HTMLElement>("[data-lucide]")
-        ?.setAttribute("data-lucide", "menu");
-      refreshIcons();
+      sidebar.classList.remove('is-open')
+      backdrop.classList.remove('is-visible')
+      document.body.classList.remove('drawer-open')
+      menuBtn.removeAttribute('aria-hidden')
+      menuBtn.removeAttribute('tabindex')
+      menuBtn.setAttribute('aria-expanded', 'false')
+      menuBtn.setAttribute('aria-label', 'فتح القائمة')
+      menuBtn.querySelector<HTMLElement>('[data-lucide]')?.setAttribute('data-lucide', 'menu')
+      refreshIcons()
     }
-  };
+  }
   const closeMenu = (restoreFocus = true): void => {
-    sidebar.classList.remove("is-open");
-    backdrop.classList.remove("is-visible");
-    document.body.classList.remove("drawer-open");
-    setInert(sidebar, isMobile());
-    sidebar.setAttribute("aria-hidden", String(isMobile()));
-    menuBtn.removeAttribute("aria-hidden");
-    menuBtn.removeAttribute("tabindex");
-    menuBtn.setAttribute("aria-expanded", "false");
-    menuBtn.setAttribute("aria-label", "فتح القائمة");
-    menuBtn
-      .querySelector<HTMLElement>("[data-lucide]")
-      ?.setAttribute("data-lucide", "menu");
-    refreshIcons();
-    if (restoreFocus) menuBtn.focus();
-  };
+    sidebar.classList.remove('is-open')
+    backdrop.classList.remove('is-visible')
+    document.body.classList.remove('drawer-open')
+    setInert(sidebar, isMobile())
+    sidebar.setAttribute('aria-hidden', String(isMobile()))
+    menuBtn.removeAttribute('aria-hidden')
+    menuBtn.removeAttribute('tabindex')
+    menuBtn.setAttribute('aria-expanded', 'false')
+    menuBtn.setAttribute('aria-label', 'فتح القائمة')
+    menuBtn.querySelector<HTMLElement>('[data-lucide]')?.setAttribute('data-lucide', 'menu')
+    refreshIcons()
+    if (restoreFocus) menuBtn.focus()
+  }
   const openMenu = (): void => {
-    sidebar.classList.add("is-open");
-    backdrop.classList.add("is-visible");
-    document.body.classList.add("drawer-open");
-    setInert(sidebar, false);
-    sidebar.setAttribute("aria-hidden", "false");
-    menuBtn.setAttribute("aria-hidden", "true");
-    menuBtn.tabIndex = -1;
-    menuBtn.setAttribute("aria-expanded", "true");
-    menuBtn.setAttribute("aria-label", "إغلاق القائمة");
-    menuBtn
-      .querySelector<HTMLElement>("[data-lucide]")
-      ?.setAttribute("data-lucide", "x");
-    refreshIcons();
+    sidebar.classList.add('is-open')
+    backdrop.classList.add('is-visible')
+    document.body.classList.add('drawer-open')
+    setInert(sidebar, false)
+    sidebar.setAttribute('aria-hidden', 'false')
+    menuBtn.setAttribute('aria-hidden', 'true')
+    menuBtn.tabIndex = -1
+    menuBtn.setAttribute('aria-expanded', 'true')
+    menuBtn.setAttribute('aria-label', 'إغلاق القائمة')
+    menuBtn.querySelector<HTMLElement>('[data-lucide]')?.setAttribute('data-lucide', 'x')
+    refreshIcons()
     window.requestAnimationFrame(() =>
-      sidebar
-        .querySelector<HTMLElement>(
-          'a, button, [tabindex]:not([tabindex="-1"])',
-        )
-        ?.focus(),
-    );
-  };
+      sidebar.querySelector<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])')?.focus(),
+    )
+  }
   const toggleMenu = (): void => {
-    if (sidebar.classList.contains("is-open")) closeMenu();
-    else openMenu();
-  };
-  menuBtn.addEventListener("click", toggleMenu);
-  closeBtn.addEventListener("click", () => closeMenu());
-  backdrop.addEventListener("click", () => closeMenu());
+    if (sidebar.classList.contains('is-open')) closeMenu()
+    else openMenu()
+  }
+  menuBtn.addEventListener('click', toggleMenu)
+  closeBtn.addEventListener('click', () => closeMenu())
+  backdrop.addEventListener('click', () => closeMenu())
 
   const handleDrawerKeydown = (e: KeyboardEvent): void => {
-    if (!sidebar.classList.contains("is-open") || !isMobile()) return;
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeMenu();
-      return;
+    if (!sidebar.classList.contains('is-open') || !isMobile()) return
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      closeMenu()
+      return
     }
-    if (e.key !== "Tab") return;
+    if (e.key !== 'Tab') return
     const focusable = Array.from(
       sidebar.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
       ),
-    );
-    if (focusable.length === 0) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+    )
+    if (focusable.length === 0) return
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
     if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
+      e.preventDefault()
+      last.focus()
     } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
+      e.preventDefault()
+      first.focus()
     }
-  };
-  document.addEventListener("keydown", handleDrawerKeydown);
-  window.addEventListener("resize", syncDrawerMode);
+  }
+  document.addEventListener('keydown', handleDrawerKeydown)
+  window.addEventListener('resize', syncDrawerMode)
 
   // Close sidebar when navigating (mobile), without stealing focus from the new route.
-  shell.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
+  shell.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement
     if (target.closest('a[href^="#"]')) {
-      closeMenu(false);
+      closeMenu(false)
     }
-  });
+  })
 
-  syncDrawerMode();
+  syncDrawerMode()
 
   // Clear cache link for bad-connection debugging
-  shell.querySelector("#clear-cache-link")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    if ("caches" in window) {
+  shell.querySelector('#clear-cache-link')?.addEventListener('click', (e) => {
+    e.preventDefault()
+    if ('caches' in window) {
       void caches
         .keys()
         .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
         .then(() => {
-          showToast("تم مسح التخزين المؤقت.", shell);
-          location.reload();
-        });
+          showToast('تم مسح التخزين المؤقت.', shell)
+          location.reload()
+        })
     } else {
-      localStorage.clear();
-      showToast("تم المسح.", shell);
+      localStorage.clear()
+      showToast('تم المسح.', shell)
     }
-  });
+  })
 
-  const mainEl = shell.querySelector<HTMLElement>(".wiki-main")!;
-  const sidebarEl = sidebar;
-  const articleNav = shell.querySelector<HTMLElement>(
-    "#article-sidebar-navigation",
-  )!;
-  const articleCategory = shell.querySelector<HTMLAnchorElement>(
-    "#article-sidebar-category",
-  )!;
-  const articleTocGroup = shell.querySelector<HTMLElement>(
-    "#article-sidebar-toc-group",
-  )!;
-  const articleToc = shell.querySelector<HTMLOListElement>(
-    "#article-sidebar-toc",
-  )!;
+  const mainEl = shell.querySelector<HTMLElement>('.wiki-main')!
+  const sidebarEl = sidebar
+  const articleNav = shell.querySelector<HTMLElement>('#article-sidebar-navigation')!
+  const articleCategory = shell.querySelector<HTMLAnchorElement>('#article-sidebar-category')!
+  const articleTocGroup = shell.querySelector<HTMLElement>('#article-sidebar-toc-group')!
+  const articleToc = shell.querySelector<HTMLOListElement>('#article-sidebar-toc')!
   const setArticleContext = (context?: ArticleSidebarContext): void => {
-    shell.toggleAttribute("data-article-context", Boolean(context));
+    shell.toggleAttribute('data-article-context', Boolean(context))
     if (!context) {
-      articleNav.hidden = true;
-      articleCategory.textContent = "";
-      articleToc.replaceChildren();
-      return;
+      articleNav.hidden = true
+      articleCategory.textContent = ''
+      articleToc.replaceChildren()
+      return
     }
 
-    articleCategory.href = `#/category/${encodeURIComponent(context.category)}`;
-    articleCategory.textContent = context.category;
-    articleTocGroup.hidden = context.toc.length === 0;
+    articleCategory.href = `#/category/${encodeURIComponent(context.category)}`
+    articleCategory.textContent = context.category
+    articleTocGroup.hidden = context.toc.length === 0
     articleToc.innerHTML = context.toc
       .map(
         (item) => `
@@ -356,41 +335,27 @@ export function renderLayout(shell: HTMLElement): LayoutController {
       </li>
     `,
       )
-      .join("");
-    articleNav.hidden = false;
-  };
+      .join('')
+    articleNav.hidden = false
+  }
   const setRoute = (route: Route, category?: string): void => {
-    shell.dataset.route = route.name;
+    shell.dataset.route = route.name
     const currentCategory =
-      route.name === "category"
-        ? route.category
-        : route.name === "article"
-          ? category
-          : null;
+      route.name === 'category' ? route.category : route.name === 'article' ? category : null
     const links: Array<[HTMLElement, boolean]> = [
-      [
-        shell.querySelector<HTMLElement>(".wiki-nav__home")!,
-        route.name === "home",
-      ],
-      [
-        shell.querySelector<HTMLElement>(".wiki-nav__all")!,
-        route.name === "all",
-      ],
-    ];
-    for (const link of shell.querySelectorAll<HTMLElement>(
-      "[data-category-link]",
-    )) {
-      const active =
-        currentCategory !== null &&
-        link.textContent?.trim() === currentCategory;
-      links.push([link, Boolean(active)]);
+      [shell.querySelector<HTMLElement>('.wiki-nav__home')!, route.name === 'home'],
+      [shell.querySelector<HTMLElement>('.wiki-nav__all')!, route.name === 'all'],
+    ]
+    for (const link of shell.querySelectorAll<HTMLElement>('[data-category-link]')) {
+      const active = currentCategory !== null && link.textContent?.trim() === currentCategory
+      links.push([link, Boolean(active)])
     }
     for (const [link, active] of links) {
-      link.classList.toggle("is-active", active);
-      if (active) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
+      link.classList.toggle('is-active', active)
+      if (active) link.setAttribute('aria-current', 'page')
+      else link.removeAttribute('aria-current')
     }
-  };
+  }
   return {
     mainEl,
     searchInputs,
@@ -399,5 +364,5 @@ export function renderLayout(shell: HTMLElement): LayoutController {
     setRoute,
     setArticleContext,
     setSearchQuery,
-  };
+  }
 }

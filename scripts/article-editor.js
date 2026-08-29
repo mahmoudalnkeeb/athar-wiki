@@ -27,7 +27,10 @@ function valuesWithoutSync() {
 }
 
 function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char])
+  return String(value).replace(
+    /[&<>"']/g,
+    (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char],
+  )
 }
 
 function sanitizeContent(value) {
@@ -35,7 +38,7 @@ function sanitizeContent(value) {
   root.innerHTML = value
   root.querySelectorAll('script,style,iframe,object,embed,form').forEach((node) => node.remove())
   root.querySelectorAll('*').forEach((element) => {
-    for (const attribute of [...element.attributes]) {
+    for (const attribute of element.attributes) {
       const name = attribute.name.toLowerCase()
       const unsafeUrl = attribute.value.trim().toLowerCase().startsWith('javascript:')
       if (name.startsWith('on') || unsafeUrl) element.removeAttribute(attribute.name)
@@ -71,7 +74,8 @@ function updateWritingStats() {
   const words = (editor.innerText.trim().match(/\S+/g) || []).length
   const minutes = Math.max(1, Math.ceil(words / 180))
   wordCount.textContent = `${words.toLocaleString('ar-EG')} كلمة`
-  readingEstimate.textContent = minutes === 1 ? 'دقيقة قراءة واحدة' : `${minutes.toLocaleString('ar-EG')} دقائق قراءة`
+  readingEstimate.textContent =
+    minutes === 1 ? 'دقيقة قراءة واحدة' : `${minutes.toLocaleString('ar-EG')} دقائق قراءة`
 }
 
 function saveDraft() {
@@ -84,7 +88,8 @@ function loadDraft() {
     const draft = JSON.parse(localStorage.getItem(draftKey) || 'null')
     if (!draft) return
     for (const field of form.querySelectorAll('input, textarea')) {
-      if (field.name !== 'content' && draft[field.name] !== undefined) field.value = draft[field.name]
+      if (field.name !== 'content' && draft[field.name] !== undefined)
+        field.value = draft[field.name]
     }
     if (draft.content) editor.innerHTML = draft.content
   } catch {
@@ -127,14 +132,19 @@ function insertImage() {
   if (!source || !/^(https?:\/\/|\/)/i.test(source)) return
   const alt = window.prompt('اكتب وصفًا بديلًا للصورة')?.trim()
   if (!alt) return
-  insertHtml(`<figure class="wiki-figure"><img src="${escapeHtml(source)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(alt)}</figcaption></figure><p><br></p>`)
+  insertHtml(
+    `<figure class="wiki-figure"><img src="${escapeHtml(source)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(alt)}</figcaption></figure><p><br></p>`,
+  )
 }
 
 function applyCommand(command) {
   focusEditor()
   if (command === 'blockquote') document.execCommand('formatBlock', false, 'blockquote')
   else if (command === 'lead') insertHtml('<p class="lead">فقرة افتتاحية…</p><p><br></p>')
-  else if (command === 'callout') insertHtml('<div class="callout callout--info"><strong>معلومة:</strong> اكتب المعلومة المهمة هنا.</div><p><br></p>')
+  else if (command === 'callout')
+    insertHtml(
+      '<div class="callout callout--info"><strong>معلومة:</strong> اكتب المعلومة المهمة هنا.</div><p><br></p>',
+    )
   else if (command === 'insertImage') insertImage()
   else if (command === 'createLink') {
     const url = window.prompt('أدخل الرابط (https://…)')?.trim()
@@ -150,13 +160,24 @@ function applyCommand(command) {
 function updateToolbarState() {
   for (const button of document.querySelectorAll('[data-command]')) {
     if (['bold', 'italic', 'underline', 'insertUnorderedList'].includes(button.dataset.command)) {
-      button.setAttribute('aria-pressed', String(document.queryCommandState(button.dataset.command)))
+      button.setAttribute(
+        'aria-pressed',
+        String(document.queryCommandState(button.dataset.command)),
+      )
     }
   }
 }
 
-for (const field of form.querySelectorAll('input, textarea')) field.addEventListener('input', () => { renderPreview(); saveDraft() })
-editor.addEventListener('input', () => { syncContent(); renderPreview(); saveDraft() })
+for (const field of form.querySelectorAll('input, textarea'))
+  field.addEventListener('input', () => {
+    renderPreview()
+    saveDraft()
+  })
+editor.addEventListener('input', () => {
+  syncContent()
+  renderPreview()
+  saveDraft()
+})
 editor.addEventListener('keyup', updateToolbarState)
 editor.addEventListener('mouseup', updateToolbarState)
 document.addEventListener('selectionchange', () => {
@@ -180,12 +201,18 @@ closePreview.addEventListener('click', () => setPreviewVisible(false))
 document.querySelector('#block-format').addEventListener('change', (event) => {
   focusEditor()
   document.execCommand('formatBlock', false, event.target.value)
-  syncContent(); renderPreview(); saveDraft()
+  syncContent()
+  renderPreview()
+  saveDraft()
 })
-form.addEventListener('invalid', (event) => {
-  const details = event.target.closest('details')
-  if (details) details.open = true
-}, true)
+form.addEventListener(
+  'invalid',
+  (event) => {
+    const details = event.target.closest('details')
+    if (details) details.open = true
+  },
+  true,
+)
 document.addEventListener('keydown', (event) => {
   if (!(event.metaKey || event.ctrlKey)) return
   if (event.key.toLowerCase() === 's') {
@@ -216,7 +243,11 @@ form.addEventListener('submit', async (event) => {
   const button = form.querySelector('button[type="submit"]')
   button.disabled = true
   try {
-    const response = await fetch('/api/articles', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(values()) })
+    const response = await fetch('/api/articles', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(values()),
+    })
     const result = await response.json()
     if (!response.ok) throw new Error((result.errors || ['تعذر حفظ المقال.']).join(' '))
     setStatus(`تم الحفظ: ${result.articlePath} وتحديث ${result.registryPath}`, 'success')
@@ -233,14 +264,18 @@ async function loadExisting() {
   try {
     const response = await fetch('/api/articles')
     const result = await response.json()
-    document.querySelector('#existing-list').innerHTML = result.articles.map((slug) => `<li>${escapeHtml(slug)}</li>`).join('') || '<li>لا توجد مقالات بعد.</li>'
+    document.querySelector('#existing-list').innerHTML =
+      result.articles.map((slug) => `<li>${escapeHtml(slug)}</li>`).join('') ||
+      '<li>لا توجد مقالات بعد.</li>'
   } catch {
     document.querySelector('#existing-list').innerHTML = '<li>تعذر تحميل القائمة.</li>'
   }
 }
 
 loadDraft()
-if (!editor.innerHTML.trim()) editor.innerHTML = '<p class="lead">فقرة افتتاحية تعرّف بالموضوع وأهميته.</p><h2 id="muqadima">مقدمة</h2><p>اكتب هنا محتوى المقال بلغة واضحة ومباشرة.</p><h2 id="masadir">المصادر</h2><ul><li>أضف المصادر وروابطها هنا.</li></ul>'
+if (!editor.innerHTML.trim())
+  editor.innerHTML =
+    '<p class="lead">فقرة افتتاحية تعرّف بالموضوع وأهميته.</p><h2 id="muqadima">مقدمة</h2><p>اكتب هنا محتوى المقال بلغة واضحة ومباشرة.</p><h2 id="masadir">المصادر</h2><ul><li>أضف المصادر وروابطها هنا.</li></ul>'
 syncContent()
 renderPreview()
 loadExisting()

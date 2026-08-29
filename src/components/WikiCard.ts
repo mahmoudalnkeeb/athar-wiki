@@ -14,21 +14,24 @@ export function wikiCard(
     'wiki-card',
     entry.cover ? 'wiki-card--with-cover' : 'wiki-card--textual',
     options.compact ? 'wiki-card--compact' : '',
-  ].filter(Boolean).join(' ')
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return `
     <article class="${cardClasses}" data-slug="${escapeAttr(entry.slug)}">
       <a class="wiki-card__link" href="#/wiki/${encodeURIComponent(entry.slug)}"
          data-prefetch-slug="${escapeAttr(entry.slug)}"
          aria-label="${escapeAttr(entry.title)}">
-        ${entry.cover
-          ? `<div class="wiki-card__media">
+        ${
+          entry.cover
+            ? `<div class="wiki-card__media">
                <img data-src="${escapeAttr(entry.cover)}"
                     alt="" loading="lazy" decoding="async"
                     width="400" height="220"
                     class="wiki-card__cover img-placeholder" />
              </div>`
-          : ''
+            : ''
         }
         <div class="wiki-card__body">
           <div class="wiki-card__meta">
@@ -37,14 +40,24 @@ export function wikiCard(
           </div>
           <h3 class="wiki-card__title">${escapeHtml(entry.title)}</h3>
           <p class="wiki-card__summary">${escapeHtml(entry.summary)}</p>
-          ${options.showTags !== false && entry.tags?.length ? `<div class="wiki-card__tags">${entry.tags.slice(0, 3).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+          ${
+            options.showTags !== false && entry.tags?.length
+              ? `<div class="wiki-card__tags">${entry.tags
+                  .slice(0, 3)
+                  .map((t) => `<span class="tag">${escapeHtml(t)}</span>`)
+                  .join('')}</div>`
+              : ''
+          }
         </div>
       </a>
     </article>
   `
 }
 
-export function wikiFeaturedCard(entry: RegistryEntry, options: { showDate?: boolean } = {}): string {
+export function wikiFeaturedCard(
+  entry: RegistryEntry,
+  options: { showDate?: boolean } = {},
+): string {
   const visual = entry.cover
     ? `<img data-src="${escapeAttr(entry.cover)}" alt="" loading="lazy" decoding="async" width="640" height="420" class="wiki-featured-card__cover img-placeholder" />`
     : `<span class="wiki-featured-card__mark" aria-hidden="true">◆</span>`
@@ -71,7 +84,10 @@ export function wikiFeaturedCard(entry: RegistryEntry, options: { showDate?: boo
 }
 
 /** Attach prefetch listeners to cards already in DOM. */
-export function attachCardPrefetch(root: ParentNode = document, entries: RegistryEntry[] = []): void {
+export function attachCardPrefetch(
+  root: ParentNode = document,
+  entries: RegistryEntry[] = [],
+): void {
   const links = root.querySelectorAll<HTMLAnchorElement>('[data-prefetch-slug]')
   const loaders = new Map(entries.map((entry) => [entry.slug, entry.load]))
   for (const a of links) {
@@ -90,7 +106,9 @@ export function attachCardPrefetch(root: ParentNode = document, entries: Registr
   }
 }
 
-function escapeAttr(s: string): string { return escapeHtml(s) }
+function escapeAttr(s: string): string {
+  return escapeHtml(s)
+}
 
 function visualClassForCategory(category: string): string {
   const value = category.trim()
@@ -103,6 +121,12 @@ function visualClassForCategory(category: string): string {
 
 function formatCardDate(iso: string): string {
   try {
-    return new Intl.DateTimeFormat('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(iso))
-  } catch { return iso }
+    return new Intl.DateTimeFormat('ar-EG', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(new Date(iso))
+  } catch {
+    return iso
+  }
 }

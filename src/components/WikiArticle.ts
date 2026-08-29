@@ -95,18 +95,24 @@ export function renderWikiArticle(
   const cleanupProgress = setupReadingProgress(container)
 
   document.querySelectorAll<HTMLAnchorElement>('[data-article-section]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const id = link.dataset.articleSection
-      if (!id) return
-      event.preventDefault()
-      document.getElementById(id)?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-        block: 'start',
-      })
-      setActiveToc(id)
-      const sectionHash = `#/wiki/${encodeURIComponent(article.slug)}?section=${encodeURIComponent(id)}`
-      if (location.hash !== sectionHash) history.pushState(null, '', sectionHash)
-    }, { signal: events.signal })
+    link.addEventListener(
+      'click',
+      (event) => {
+        const id = link.dataset.articleSection
+        if (!id) return
+        event.preventDefault()
+        document.getElementById(id)?.scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 'auto'
+            : 'smooth',
+          block: 'start',
+        })
+        setActiveToc(id)
+        const sectionHash = `#/wiki/${encodeURIComponent(article.slug)}?section=${encodeURIComponent(id)}`
+        if (location.hash !== sectionHash) history.pushState(null, '', sectionHash)
+      },
+      { signal: events.signal },
+    )
   })
 
   // Share / copy
@@ -114,28 +120,46 @@ export function renderWikiArticle(
   const copyBtn = container.querySelector<HTMLButtonElement>('#copy-link-btn')
   const url = `${location.origin}${location.pathname}#/wiki/${encodeURIComponent(article.slug)}`
 
-  shareBtn?.addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: article.title, text: article.summary, url })
-        showToast('تمت المشاركة.', container)
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') return
-        showToast('تعذرت المشاركة. استخدم «نسخ الرابط».', container)
+  shareBtn?.addEventListener(
+    'click',
+    async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: article.title, text: article.summary, url })
+          showToast('تمت المشاركة.', container)
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return
+          showToast('تعذرت المشاركة. استخدم «نسخ الرابط».', container)
+        }
+      } else {
+        showToast(
+          (await copyUrl(url))
+            ? 'تم نسخ الرابط.'
+            : 'تعذر نسخ الرابط. انسخه يدويًا من شريط العنوان.',
+          container,
+        )
       }
-    } else {
-      showToast(await copyUrl(url) ? 'تم نسخ الرابط.' : 'تعذر نسخ الرابط. انسخه يدويًا من شريط العنوان.', container)
-    }
-  }, { signal: events.signal })
-  copyBtn?.addEventListener('click', async () => {
-    showToast(await copyUrl(url) ? 'تم نسخ الرابط.' : 'تعذر نسخ الرابط. انسخه يدويًا من شريط العنوان.', container)
-  }, { signal: events.signal })
+    },
+    { signal: events.signal },
+  )
+  copyBtn?.addEventListener(
+    'click',
+    async () => {
+      showToast(
+        (await copyUrl(url)) ? 'تم نسخ الرابط.' : 'تعذر نسخ الرابط. انسخه يدويًا من شريط العنوان.',
+        container,
+      )
+    },
+    { signal: events.signal },
+  )
 
   const cleanupTocHighlight = setupTocHighlight(toc)
   const section = new URLSearchParams(location.hash.split('?')[1] ?? '').get('section')
   if (section && toc.some((item) => item.id === section)) {
     setActiveToc(section)
-    requestAnimationFrame(() => document.getElementById(section)?.scrollIntoView({ block: 'start' }))
+    requestAnimationFrame(() =>
+      document.getElementById(section)?.scrollIntoView({ block: 'start' }),
+    )
   }
 
   return () => {
@@ -181,7 +205,9 @@ function renderReadingSettings(): string {
 function setupReadingSettings(container: HTMLElement, signal: AbortSignal): void {
   const content = container.querySelector<HTMLElement>('#article-content')
   const settingsRoot = container.querySelector<HTMLElement>('.reading-settings')
-  const toggles = container.querySelectorAll<HTMLButtonElement>('.reading-settings__toggle, .reading-settings__floating-toggle')
+  const toggles = container.querySelectorAll<HTMLButtonElement>(
+    '.reading-settings__toggle, .reading-settings__floating-toggle',
+  )
   const panel = container.querySelector<HTMLElement>('.reading-settings__panel')
   const reset = container.querySelector<HTMLButtonElement>('.reading-settings__reset')
   if (!content || !settingsRoot || toggles.length === 0 || !panel || !reset) return
@@ -189,16 +215,18 @@ function setupReadingSettings(container: HTMLElement, signal: AbortSignal): void
   let settings = readReadingSettings()
 
   const apply = (): void => {
-    const fontSize = settings.fontScale === 1
-      ? 'var(--text-lg)'
-      : settings.fontScale === 1.1
+    const fontSize =
+      settings.fontScale === 1
+        ? 'var(--text-lg)'
+        : settings.fontScale === 1.1
+          ? 'var(--text-xl)'
+          : 'calc(var(--text-xl) + var(--space-2))'
+    const leadFontSize =
+      settings.fontScale === 1
         ? 'var(--text-xl)'
-        : 'calc(var(--text-xl) + var(--space-2))'
-    const leadFontSize = settings.fontScale === 1
-      ? 'var(--text-xl)'
-      : settings.fontScale === 1.1
-        ? 'calc(var(--text-xl) + var(--space-1))'
-        : 'var(--text-2xl)'
+        : settings.fontScale === 1.1
+          ? 'calc(var(--text-xl) + var(--space-1))'
+          : 'var(--text-2xl)'
     content.style.setProperty('--reading-font-size', fontSize)
     content.style.setProperty('--reading-lead-font-size', leadFontSize)
     content.style.setProperty('--reading-line-height', String(settings.lineHeight))
@@ -226,52 +254,71 @@ function setupReadingSettings(container: HTMLElement, signal: AbortSignal): void
   }
 
   toggles.forEach((toggle) => {
-    toggle.addEventListener('click', () => {
-      setExpanded(toggle.getAttribute('aria-expanded') !== 'true')
-    }, { signal })
+    toggle.addEventListener(
+      'click',
+      () => {
+        setExpanded(toggle.getAttribute('aria-expanded') !== 'true')
+      },
+      { signal },
+    )
   })
 
-  container.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && settingsRoot.classList.contains('is-open')) {
-      setExpanded(false)
-      container.querySelector<HTMLButtonElement>('.reading-settings__floating-toggle')?.focus()
-    }
-  }, { signal })
+  container.addEventListener(
+    'keydown',
+    (event) => {
+      if (event.key === 'Escape' && settingsRoot.classList.contains('is-open')) {
+        setExpanded(false)
+        container.querySelector<HTMLButtonElement>('.reading-settings__floating-toggle')?.focus()
+      }
+    },
+    { signal },
+  )
 
   container.querySelectorAll<HTMLButtonElement>('[data-reading-setting]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const key = button.dataset.readingSetting as keyof ReadingSettings | undefined
-      const value = button.dataset.readingValue
-      if (!key || !value) return
-      if (key === 'fontScale') {
-        const parsed = parseFontScale(value)
-        if (parsed !== null) settings.fontScale = parsed
-      }
-      if (key === 'lineHeight') {
-        const parsed = parseLineHeight(value)
-        if (parsed !== null) settings.lineHeight = parsed
-      }
-      if (key === 'readingWidth' && isReadingWidth(value)) settings.readingWidth = value
-      apply()
-      save()
-    }, { signal })
+    button.addEventListener(
+      'click',
+      () => {
+        const key = button.dataset.readingSetting as keyof ReadingSettings | undefined
+        const value = button.dataset.readingValue
+        if (!key || !value) return
+        if (key === 'fontScale') {
+          const parsed = parseFontScale(value)
+          if (parsed !== null) settings.fontScale = parsed
+        }
+        if (key === 'lineHeight') {
+          const parsed = parseLineHeight(value)
+          if (parsed !== null) settings.lineHeight = parsed
+        }
+        if (key === 'readingWidth' && isReadingWidth(value)) settings.readingWidth = value
+        apply()
+        save()
+      },
+      { signal },
+    )
   })
 
-  reset.addEventListener('click', () => {
-    settings = { ...DEFAULT_READING_SETTINGS }
-    apply()
-    save()
-  }, { signal })
+  reset.addEventListener(
+    'click',
+    () => {
+      settings = { ...DEFAULT_READING_SETTINGS }
+      apply()
+      save()
+    },
+    { signal },
+  )
 
   apply()
 }
 
 function readReadingSettings(): ReadingSettings {
   try {
-    const stored = JSON.parse(localStorage.getItem(READING_SETTINGS_KEY) ?? 'null') as Partial<ReadingSettings> | null
+    const stored = JSON.parse(
+      localStorage.getItem(READING_SETTINGS_KEY) ?? 'null',
+    ) as Partial<ReadingSettings> | null
     return {
       fontScale: stored?.fontScale === 1.1 || stored?.fontScale === 1.2 ? stored.fontScale : 1,
-      lineHeight: stored?.lineHeight === 2.1 || stored?.lineHeight === 2.3 ? stored.lineHeight : 1.9,
+      lineHeight:
+        stored?.lineHeight === 2.1 || stored?.lineHeight === 2.3 ? stored.lineHeight : 1.9,
       readingWidth: stored?.readingWidth === 'wide' ? 'wide' : 'standard',
     }
   } catch {
@@ -323,11 +370,15 @@ function renderTocHtml(toc: TocItem[], slug: string): string {
       </button>
       <div class="wiki-toc__panel" id="article-toc-panel"${expanded ? '' : ' hidden'}>
         <ol class="wiki-toc__list">
-          ${toc.map((i) => `
+          ${toc
+            .map(
+              (i) => `
             <li class="wiki-toc__item wiki-toc__item--${i.level}">
               <a href="#/wiki/${encodeURIComponent(slug)}?section=${encodeURIComponent(i.id)}" data-article-section="${escapeHtml(i.id)}">${escapeHtml(i.title)}</a>
             </li>
-          `).join('')}
+          `,
+            )
+            .join('')}
         </ol>
       </div>
     </nav>
@@ -382,11 +433,15 @@ function setupTocDisclosure(container: HTMLElement, signal: AbortSignal): void {
   const button = container.querySelector<HTMLButtonElement>('.wiki-toc__summary')
   const panel = container.querySelector<HTMLElement>('.wiki-toc__panel')
   if (!button || !panel) return
-  button.addEventListener('click', () => {
-    const expanded = button.getAttribute('aria-expanded') === 'true'
-    button.setAttribute('aria-expanded', String(!expanded))
-    panel.hidden = expanded
-  }, { signal })
+  button.addEventListener(
+    'click',
+    () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true'
+      button.setAttribute('aria-expanded', String(!expanded))
+      panel.hidden = expanded
+    },
+    { signal },
+  )
 }
 
 function setupTocHighlight(toc: TocItem[]): () => void {
@@ -403,10 +458,13 @@ function setupTocHighlight(toc: TocItem[]): () => void {
     frame = 0
     const readingLine = Math.max(96, window.innerHeight * 0.22)
     const lastHeading = headings[headings.length - 1]
-    const atDocumentEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+    const atDocumentEnd =
+      window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
     const current = atDocumentEnd
       ? lastHeading
-      : [...headings].reverse().find((heading) => heading.getBoundingClientRect().top <= readingLine) ?? headings[0]
+      : ([...headings]
+          .reverse()
+          .find((heading) => heading.getBoundingClientRect().top <= readingLine) ?? headings[0])
     if (current.id === activeId) return
     activeId = current.id
     setActiveToc(activeId)
@@ -437,8 +495,14 @@ function setActiveToc(id: string): void {
 
 function formatDate(iso: string): string {
   try {
-    return new Intl.DateTimeFormat('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(iso))
-  } catch { return iso }
+    return new Intl.DateTimeFormat('ar-EG', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(iso))
+  } catch {
+    return iso
+  }
 }
 
 function renderSources(sources: ArticleSource[] | undefined): string {
@@ -447,13 +511,17 @@ function renderSources(sources: ArticleSource[] | undefined): string {
     <section class="wiki-sources" aria-labelledby="article-sources-title">
       <h2 id="article-sources-title">المصادر</h2>
       <ol class="wiki-sources__list">
-        ${sources.map((source) => `
+        ${sources
+          .map(
+            (source) => `
           <li class="wiki-source">
             <cite>${escapeHtml(source.title)}</cite>
             <span class="wiki-source__details">${escapeHtml([source.author, source.publication, source.year].filter(Boolean).join('، '))}</span>
             <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">فتح المصدر<span class="sr-only">: ${escapeHtml(source.title)}</span></a>
           </li>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </ol>
     </section>
   `

@@ -53,7 +53,9 @@ export function mountApp(app: HTMLDivElement): void {
           const entries = search(route.q)
           renderWikiList(mainEl, entries, {
             title: route.q ? `نتائج البحث: "${route.q}"` : 'البحث',
-            subtitle: route.q ? `${entries.length} نتيجة` : 'اكتب كلمة للبحث في العناوين والملخصات والوسوم',
+            subtitle: route.q
+              ? `${entries.length} نتيجة`
+              : 'اكتب كلمة للبحث في العناوين والملخصات والوسوم',
             emptyText: `لا توجد نتائج لـ "${route.q}"`,
           })
           break
@@ -88,15 +90,18 @@ export function mountApp(app: HTMLDivElement): void {
           break
       }
     } finally {
-      if (currentRender !== renderVersion) return
-      mainEl.setAttribute('aria-busy', 'false')
-      mainEl.focus({ preventScroll: true })
-      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+      if (currentRender === renderVersion) {
+        mainEl.setAttribute('aria-busy', 'false')
+        mainEl.focus({ preventScroll: true })
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+      }
     }
   }
 
   void handleRoute(getRoute())
-  onRouteChange((route) => { void handleRoute(route) })
+  onRouteChange((route) => {
+    void handleRoute(route)
+  })
 
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     window.addEventListener('load', () => {
@@ -139,10 +144,16 @@ function updateDocumentTitle(
   const isPrivateRoute = route.name === 'search' || route.name === 'not-found'
   document.title = title
   document.querySelector('meta[name="description"]')?.setAttribute('content', routeDescription)
-  document.querySelector('meta[name="robots"]')?.setAttribute('content', isPrivateRoute ? 'noindex,follow' : 'index,follow')
+  document
+    .querySelector('meta[name="robots"]')
+    ?.setAttribute('content', isPrivateRoute ? 'noindex,follow' : 'index,follow')
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
-  document.querySelector('meta[property="og:description"]')?.setAttribute('content', routeDescription)
-  document.querySelector('meta[property="og:type"]')?.setAttribute('content', route.name === 'article' ? 'article' : 'website')
+  document
+    .querySelector('meta[property="og:description"]')
+    ?.setAttribute('content', routeDescription)
+  document
+    .querySelector('meta[property="og:type"]')
+    ?.setAttribute('content', route.name === 'article' ? 'article' : 'website')
   document.querySelector('meta[property="og:url"]')?.setAttribute('content', location.href)
 
   let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')

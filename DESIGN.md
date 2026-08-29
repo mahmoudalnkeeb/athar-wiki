@@ -27,14 +27,14 @@ Preserve the following at all times:
 
 The current route map is intentionally small:
 
-| Route | Purpose | Primary composition |
-| --- | --- | --- |
-| `#/` | Homepage | Hero, search, featured article, latest articles |
-| `#/wiki` | All articles | Page lead, compact two-column card grid revealed in batches |
-| `#/category/:name` | Category listing | Page lead, compact card grid revealed in batches when needed |
-| `#/search?q=...` | Search results | Page lead, compact card grid revealed in batches when needed |
-| `#/wiki/:slug` | Article | Breadcrumbs, article header, contents, readable article measure |
-| unknown route | Not found | Focused status state and recovery actions |
+| Route              | Purpose          | Primary composition                                             |
+| ------------------ | ---------------- | --------------------------------------------------------------- |
+| `#/`               | Homepage         | Hero, search, featured article, latest articles                 |
+| `#/wiki`           | All articles     | Page lead, compact two-column card grid revealed in batches     |
+| `#/category/:name` | Category listing | Page lead, compact card grid revealed in batches when needed    |
+| `#/search?q=...`   | Search results   | Page lead, compact card grid revealed in batches when needed    |
+| `#/wiki/:slug`     | Article          | Breadcrumbs, article header, contents, readable article measure |
+| unknown route      | Not found        | Focused status state and recovery actions                       |
 
 Do not add navigation labels or routes unless the router and a real destination exist.
 
@@ -64,19 +64,19 @@ Use semantic tokens from `src/styles/tokens.css` instead of raw values in compon
 
 ### Color roles
 
-| Role | Token | Use |
-| --- | --- | --- |
-| Page background | `--color-bg` | Global canvas |
-| Subtle paper | `--color-bg-subtle` | Hero, page leads, quiet surfaces |
-| Raised surface | `--color-surface` | Cards, inputs, article controls |
-| Primary | `--color-primary` | Main actions and strong controls |
-| Primary hover | `--color-primary-hover` | Hover feedback |
-| Heading ink | `--color-text-heading` | Headings and brand text |
-| Body ink | `--color-text` | Main readable copy |
-| Muted ink | `--color-text-muted` | Metadata and secondary copy only |
-| Link | `--color-link` | Navigational and article links |
-| Brass accent | `--color-accent` | Dividers and small editorial details |
-| Focus | `--color-focus` | Keyboard focus rings |
+| Role            | Token                   | Use                                  |
+| --------------- | ----------------------- | ------------------------------------ |
+| Page background | `--color-bg`            | Global canvas                        |
+| Subtle paper    | `--color-bg-subtle`     | Hero, page leads, quiet surfaces     |
+| Raised surface  | `--color-surface`       | Cards, inputs, article controls      |
+| Primary         | `--color-primary`       | Main actions and strong controls     |
+| Primary hover   | `--color-primary-hover` | Hover feedback                       |
+| Heading ink     | `--color-text-heading`  | Headings and brand text              |
+| Body ink        | `--color-text`          | Main readable copy                   |
+| Muted ink       | `--color-text-muted`    | Metadata and secondary copy only     |
+| Link            | `--color-link`          | Navigational and article links       |
+| Brass accent    | `--color-accent`        | Dividers and small editorial details |
+| Focus           | `--color-focus`         | Keyboard focus rings                 |
 
 Do not introduce gradients, neon accents, heavy shadows, or a second accent family. Brass should clarify structure, not outline every element.
 

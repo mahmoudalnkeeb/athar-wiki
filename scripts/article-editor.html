@@ -8,7 +8,10 @@
     <link rel="icon" type="image/png" href="/athar_logo_without_wordmark.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/article-editor.css" />
   </head>
   <body>
@@ -16,8 +19,22 @@
     <div class="arabesque-bar" aria-hidden="true"></div>
     <header class="editor-header" role="banner">
       <div class="editor-header__inner">
-        <a class="editor-brand" href="/" aria-label="العودة إلى محرر أثر"><span class="editor-brand__mark" aria-hidden="true">أ</span><span><strong>أثر</strong><small>محرر المقالات</small></span></a>
-        <div class="editor-header__tools"><span id="draft-label" class="meta-text">مسودة محلية تلقائية</span><button class="button button--small button--ghost" id="toggle-preview" type="button" aria-controls="preview-panel" aria-expanded="false">عرض المعاينة</button></div>
+        <a class="editor-brand" href="/" aria-label="العودة إلى محرر أثر"
+          ><span class="editor-brand__mark" aria-hidden="true">أ</span
+          ><span><strong>أثر</strong><small>محرر المقالات</small></span></a
+        >
+        <div class="editor-header__tools">
+          <span id="draft-label" class="meta-text">مسودة محلية تلقائية</span
+          ><button
+            class="button button--small button--ghost"
+            id="toggle-preview"
+            type="button"
+            aria-controls="preview-panel"
+            aria-expanded="false"
+          >
+            عرض المعاينة
+          </button>
+        </div>
       </div>
     </header>
 
@@ -25,59 +42,277 @@
       <section class="page-lead" aria-labelledby="page-title">
         <p class="page-lead__kicker">محرر المحتوى</p>
         <h1 id="page-title">أنشئ مقالًا جديدًا</h1>
-        <p>ركّز على الفكرة والكتابة. تُحفظ المسودة تلقائيًا، وتبقى التفاصيل والمعاينة في متناولك عند الحاجة.</p>
+        <p>
+          ركّز على الفكرة والكتابة. تُحفظ المسودة تلقائيًا، وتبقى التفاصيل والمعاينة في متناولك عند
+          الحاجة.
+        </p>
       </section>
 
       <div class="editor-workspace" id="editor-workspace">
         <section class="panel panel--form" aria-labelledby="writing-title">
-          <div class="panel__head"><div><p class="panel__eyebrow">مساحة العمل الأساسية</p><h2 id="writing-title">الكتابة</h2></div><span class="meta-text">⌘/Ctrl + S للحفظ</span></div>
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">مساحة العمل الأساسية</p>
+              <h2 id="writing-title">الكتابة</h2>
+            </div>
+            <span class="meta-text">⌘/Ctrl + S للحفظ</span>
+          </div>
           <div class="panel__body">
             <form id="article-form">
               <section class="writing-stage" aria-labelledby="writing-stage-title">
-                <div class="field__label-row"><label id="writing-stage-title" for="title">عنوان المقال</label><span class="hint">ابدأ بالعنوان، ثم اكتب بحرية</span></div>
-                <input class="title-input" id="title" name="title" required placeholder="عنوان المقال" />
-                <div class="writing-stats" aria-live="polite"><span id="word-count">0 كلمة</span><span aria-hidden="true">·</span><span id="reading-estimate">دقيقة قراءة واحدة</span></div>
-                <div class="field__label-row field__label-row--content"><label for="content-editor">محتوى المقال</label><span class="hint">لا حاجة لكتابة HTML</span></div>
+                <div class="field__label-row">
+                  <label id="writing-stage-title" for="title">عنوان المقال</label
+                  ><span class="hint">ابدأ بالعنوان، ثم اكتب بحرية</span>
+                </div>
+                <input
+                  class="title-input"
+                  id="title"
+                  name="title"
+                  required
+                  placeholder="عنوان المقال"
+                />
+                <div class="writing-stats" aria-live="polite">
+                  <span id="word-count">0 كلمة</span><span aria-hidden="true">·</span
+                  ><span id="reading-estimate">دقيقة قراءة واحدة</span>
+                </div>
+                <div class="field__label-row field__label-row--content">
+                  <label for="content-editor">محتوى المقال</label
+                  ><span class="hint">لا حاجة لكتابة HTML</span>
+                </div>
                 <div class="rich-editor-shell">
                   <div class="rich-toolbar" role="toolbar" aria-label="تنسيق محتوى المقال">
-                    <div class="toolbar-group"><button type="button" class="tool-button" data-command="bold" aria-label="عريض" aria-pressed="false" title="عريض"><strong>ع</strong></button><button type="button" class="tool-button" data-command="italic" aria-label="مائل" aria-pressed="false" title="مائل"><em>م</em></button><button type="button" class="tool-button" data-command="underline" aria-label="تحته خط" aria-pressed="false" title="تحته خط"><u>خ</u></button></div>
-                    <div class="toolbar-group"><label class="sr-only" for="block-format">نوع الفقرة</label><select id="block-format" class="format-select"><option value="p">فقرة</option><option value="h2">عنوان قسم</option><option value="h3">عنوان فرعي</option></select><button type="button" class="tool-button" data-command="insertUnorderedList" aria-label="قائمة نقطية" title="قائمة نقطية">☷</button><button type="button" class="tool-button" data-command="blockquote" aria-label="اقتباس" title="اقتباس">❝</button></div>
-                    <div class="toolbar-group"><button type="button" class="tool-button tool-button--text" data-command="lead" aria-label="فقرة افتتاحية">افتتاحية</button><button type="button" class="tool-button tool-button--text" data-command="callout" aria-label="مربع معلومة">معلومة</button><button type="button" class="tool-button tool-button--text" data-command="insertImage" aria-label="إضافة صورة">صورة</button><button type="button" class="tool-button" data-command="createLink" aria-label="إضافة رابط" title="إضافة رابط">↗</button><button type="button" class="tool-button" data-command="removeFormat" aria-label="مسح التنسيق" title="مسح التنسيق">⌫</button></div>
+                    <div class="toolbar-group">
+                      <button
+                        type="button"
+                        class="tool-button"
+                        data-command="bold"
+                        aria-label="عريض"
+                        aria-pressed="false"
+                        title="عريض"
+                      >
+                        <strong>ع</strong></button
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="italic"
+                        aria-label="مائل"
+                        aria-pressed="false"
+                        title="مائل"
+                      >
+                        <em>م</em></button
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="underline"
+                        aria-label="تحته خط"
+                        aria-pressed="false"
+                        title="تحته خط"
+                      >
+                        <u>خ</u>
+                      </button>
+                    </div>
+                    <div class="toolbar-group">
+                      <label class="sr-only" for="block-format">نوع الفقرة</label
+                      ><select id="block-format" class="format-select">
+                        <option value="p">فقرة</option>
+                        <option value="h2">عنوان قسم</option>
+                        <option value="h3">عنوان فرعي</option></select
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="insertUnorderedList"
+                        aria-label="قائمة نقطية"
+                        title="قائمة نقطية"
+                      >
+                        ☷</button
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="blockquote"
+                        aria-label="اقتباس"
+                        title="اقتباس"
+                      >
+                        ❝
+                      </button>
+                    </div>
+                    <div class="toolbar-group">
+                      <button
+                        type="button"
+                        class="tool-button tool-button--text"
+                        data-command="lead"
+                        aria-label="فقرة افتتاحية"
+                      >
+                        افتتاحية</button
+                      ><button
+                        type="button"
+                        class="tool-button tool-button--text"
+                        data-command="callout"
+                        aria-label="مربع معلومة"
+                      >
+                        معلومة</button
+                      ><button
+                        type="button"
+                        class="tool-button tool-button--text"
+                        data-command="insertImage"
+                        aria-label="إضافة صورة"
+                      >
+                        صورة</button
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="createLink"
+                        aria-label="إضافة رابط"
+                        title="إضافة رابط"
+                      >
+                        ↗</button
+                      ><button
+                        type="button"
+                        class="tool-button"
+                        data-command="removeFormat"
+                        aria-label="مسح التنسيق"
+                        title="مسح التنسيق"
+                      >
+                        ⌫
+                      </button>
+                    </div>
                   </div>
-                  <div id="content-editor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="محتوى المقال" aria-describedby="editor-help" data-placeholder="ابدأ كتابة المقال هنا…"></div>
+                  <div
+                    id="content-editor"
+                    class="rich-editor"
+                    contenteditable="true"
+                    role="textbox"
+                    aria-multiline="true"
+                    aria-label="محتوى المقال"
+                    aria-describedby="editor-help"
+                    data-placeholder="ابدأ كتابة المقال هنا…"
+                  ></div>
                   <textarea id="content" name="content" hidden aria-hidden="true"></textarea>
                 </div>
-                <p class="editor-hint" id="editor-help">استخدم «عنوان قسم» لبناء جدول المحتويات. اللصق يُدرج نصًا نظيفًا دون تنسيقات خارجية.</p>
+                <p class="editor-hint" id="editor-help">
+                  استخدم «عنوان قسم» لبناء جدول المحتويات. اللصق يُدرج نصًا نظيفًا دون تنسيقات
+                  خارجية.
+                </p>
               </section>
 
               <details class="secondary-details metadata-details">
-                <summary><span><strong>بيانات المقال</strong><small>التصنيف، الملخص، الوسوم، المصادر</small></span><span class="details-chevron" aria-hidden="true">⌄</span></summary>
+                <summary>
+                  <span
+                    ><strong>بيانات المقال</strong
+                    ><small>التصنيف، الملخص، الوسوم، المصادر</small></span
+                  ><span class="details-chevron" aria-hidden="true">⌄</span>
+                </summary>
                 <div class="details__body">
                   <div class="form-grid">
-                    <div class="field"><label for="slug">المعرّف <span class="hint">slug</span></label><input id="slug" name="slug" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" dir="ltr" placeholder="article-slug" /><span class="hint">أحرف إنجليزية صغيرة وأرقام وشرطات فقط.</span></div>
-                    <div class="field"><label for="category">التصنيف</label><input id="category" name="category" required placeholder="علماء" /></div>
-                    <div class="field field--wide"><label for="summary">الملخص <span id="summary-count" class="hint"></span></label><textarea id="summary" name="summary" maxlength="280" required rows="3" placeholder="ملخص موجز يظهر في بطاقات المقال والبحث."></textarea></div>
-                    <div class="field"><label for="tags">الوسوم <span class="hint">مفصولة بفواصل</span></label><input id="tags" name="tags" placeholder="رياضيات، بغداد، علوم" /></div>
-                    <div class="field"><label for="author">الكاتب <span class="hint">اختياري</span></label><input id="author" name="author" placeholder="فريق أثر للتحرير" /></div>
-                    <div class="field"><label for="date">التاريخ</label><input id="date" name="date" type="date" /></div>
-                    <div class="field"><label for="readingTime">وقت القراءة <span class="hint">بالدقائق</span></label><input id="readingTime" name="readingTime" type="number" min="1" max="120" value="5" /></div>
-                    <div class="field field--wide"><label for="sources">المصادر <span class="hint">مصدر واحد في كل سطر: العنوان | الرابط</span></label><textarea id="sources" name="sources" rows="3" placeholder="Encyclopaedia Britannica | https://www.britannica.com"></textarea></div>
+                    <div class="field">
+                      <label for="slug">المعرّف <span class="hint">slug</span></label
+                      ><input
+                        id="slug"
+                        name="slug"
+                        required
+                        pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                        dir="ltr"
+                        placeholder="article-slug"
+                      /><span class="hint">أحرف إنجليزية صغيرة وأرقام وشرطات فقط.</span>
+                    </div>
+                    <div class="field">
+                      <label for="category">التصنيف</label
+                      ><input id="category" name="category" required placeholder="علماء" />
+                    </div>
+                    <div class="field field--wide">
+                      <label for="summary"
+                        >الملخص <span id="summary-count" class="hint"></span></label
+                      ><textarea
+                        id="summary"
+                        name="summary"
+                        maxlength="280"
+                        required
+                        rows="3"
+                        placeholder="ملخص موجز يظهر في بطاقات المقال والبحث."
+                      ></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="tags">الوسوم <span class="hint">مفصولة بفواصل</span></label
+                      ><input id="tags" name="tags" placeholder="رياضيات، بغداد، علوم" />
+                    </div>
+                    <div class="field">
+                      <label for="author">الكاتب <span class="hint">اختياري</span></label
+                      ><input id="author" name="author" placeholder="فريق أثر للتحرير" />
+                    </div>
+                    <div class="field">
+                      <label for="date">التاريخ</label><input id="date" name="date" type="date" />
+                    </div>
+                    <div class="field">
+                      <label for="readingTime">وقت القراءة <span class="hint">بالدقائق</span></label
+                      ><input
+                        id="readingTime"
+                        name="readingTime"
+                        type="number"
+                        min="1"
+                        max="120"
+                        value="5"
+                      />
+                    </div>
+                    <div class="field field--wide">
+                      <label for="sources"
+                        >المصادر
+                        <span class="hint">مصدر واحد في كل سطر: العنوان | الرابط</span></label
+                      ><textarea
+                        id="sources"
+                        name="sources"
+                        rows="3"
+                        placeholder="Encyclopaedia Britannica | https://www.britannica.com"
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
               </details>
 
-              <div class="form-actions"><button class="button button--primary" type="submit">حفظ المقال في المشروع</button><button class="button button--ghost" type="button" id="clear-draft">مسح المسودة</button><span id="status" class="status" role="status" aria-live="polite"></span></div>
+              <div class="form-actions">
+                <button class="button button--primary" type="submit">حفظ المقال في المشروع</button
+                ><button class="button button--ghost" type="button" id="clear-draft">
+                  مسح المسودة</button
+                ><span id="status" class="status" role="status" aria-live="polite"></span>
+              </div>
             </form>
           </div>
         </section>
 
-        <aside class="panel preview-panel" id="preview-panel" aria-labelledby="preview-title" hidden>
-          <div class="panel__head"><div><p class="panel__eyebrow">مراجعة عند الحاجة</p><h2 id="preview-title">المعاينة</h2></div><button class="icon-button" id="close-preview" type="button" aria-label="إخفاء المعاينة" title="إخفاء المعاينة">×</button></div>
+        <aside
+          class="panel preview-panel"
+          id="preview-panel"
+          aria-labelledby="preview-title"
+          hidden
+        >
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">مراجعة عند الحاجة</p>
+              <h2 id="preview-title">المعاينة</h2>
+            </div>
+            <button
+              class="icon-button"
+              id="close-preview"
+              type="button"
+              aria-label="إخفاء المعاينة"
+              title="إخفاء المعاينة"
+            >
+              ×
+            </button>
+          </div>
           <div class="panel__body preview" id="preview" aria-live="polite"></div>
         </aside>
       </div>
 
-      <details class="panel secondary-details existing-panel"><summary><span><strong>المقالات الموجودة</strong><small>الفهرس الحالي — للاطلاع فقط</small></span><span class="details-chevron" aria-hidden="true">⌄</span></summary><div class="panel__body"><ul id="existing-list" class="existing-list"><li>جارٍ التحميل…</li></ul></div></details>
+      <details class="panel secondary-details existing-panel">
+        <summary>
+          <span><strong>المقالات الموجودة</strong><small>الفهرس الحالي — للاطلاع فقط</small></span
+          ><span class="details-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="panel__body">
+          <ul id="existing-list" class="existing-list">
+            <li>جارٍ التحميل…</li>
+          </ul>
+        </div>
+      </details>
     </main>
     <script src="/article-editor.js" defer></script>
   </body>

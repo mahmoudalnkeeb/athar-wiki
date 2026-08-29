@@ -35,13 +35,15 @@ export function validateArticleInput(input = {}) {
   const content = String(data.content ?? '').trim()
   const sources = parseSources(data.sources)
 
-  if (!slugPattern.test(slug)) errors.push('يجب أن يكون المعرّف slug أحرفًا إنجليزية صغيرة وأرقامًا وشرطات فقط.')
+  if (!slugPattern.test(slug))
+    errors.push('يجب أن يكون المعرّف slug أحرفًا إنجليزية صغيرة وأرقامًا وشرطات فقط.')
   if (!title) errors.push('عنوان المقال مطلوب.')
   if (!summary) errors.push('الملخص مطلوب.')
   if (!category) errors.push('التصنيف مطلوب.')
   if (!content) errors.push('محتوى المقال مطلوب.')
   if (summary.length > 280) errors.push('الملخص طويل جدًا (الحد الأقصى 280 حرفًا).')
-  if (hasInvalidSourceLine(data.sources)) errors.push('كل مصدر يجب أن يكتب بهذا الشكل: العنوان | https://example.com')
+  if (hasInvalidSourceLine(data.sources))
+    errors.push('كل مصدر يجب أن يكتب بهذا الشكل: العنوان | https://example.com')
 
   return { errors, value: { ...data, slug, title, summary, category, content, sources } }
 }
@@ -56,7 +58,9 @@ export function toArticleModule(input) {
   const date = String(input.date ?? '').trim() || new Date().toISOString().slice(0, 10)
   const readingTime = clampInteger(input.readingTime, 1, 120, 5)
   const optionalLines = [
-    String(input.author ?? '').trim() ? `  author: ${JSON.stringify(String(input.author).trim())},` : '',
+    String(input.author ?? '').trim()
+      ? `  author: ${JSON.stringify(String(input.author).trim())},`
+      : '',
     tags.length > 0 ? `  tags: ${JSON.stringify(tags)},` : '  tags: [],',
     sources.length > 0 ? `  sources: ${JSON.stringify(sources)},` : '',
   ].filter(Boolean)
@@ -91,7 +95,9 @@ export function toRegistryEntry(input) {
     `    tags: ${JSON.stringify(tags)},`,
     `    date: ${JSON.stringify(date)},`,
     `    readingTime: ${readingTime},`,
-    String(input.author ?? '').trim() ? `    author: ${JSON.stringify(String(input.author).trim())},` : '',
+    String(input.author ?? '').trim()
+      ? `    author: ${JSON.stringify(String(input.author).trim())},`
+      : '',
     `    load: () => import('../articles/${input.slug}.ts'),`,
   ].filter(Boolean)
   return `  {\n${fields.join('\n')}\n  },`
@@ -99,23 +105,34 @@ export function toRegistryEntry(input) {
 
 export function parseTags(value) {
   if (Array.isArray(value)) return value.map((tag) => String(tag).trim()).filter(Boolean)
-  return String(value ?? '').split(/[,،]/).map((tag) => tag.trim()).filter(Boolean)
+  return String(value ?? '')
+    .split(/[,،]/)
+    .map((tag) => tag.trim())
+    .filter(Boolean)
 }
 
 export function parseSources(value) {
   if (Array.isArray(value)) return value
-  return String(value ?? '').split('\n').map((line) => line.trim()).filter(Boolean).flatMap((line) => {
-    const [title, url] = line.split('|').map((part) => part.trim())
-    return title && url ? [{ title, url }] : []
-  })
+  return String(value ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .flatMap((line) => {
+      const [title, url] = line.split('|').map((part) => part.trim())
+      return title && url ? [{ title, url }] : []
+    })
 }
 
 function hasInvalidSourceLine(value) {
   if (Array.isArray(value)) return value.some((source) => !source?.title || !isHttpUrl(source.url))
-  return String(value ?? '').split('\n').map((line) => line.trim()).filter(Boolean).some((line) => {
-    const [title, url] = line.split('|').map((part) => part.trim())
-    return !title || !isHttpUrl(url)
-  })
+  return String(value ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .some((line) => {
+      const [title, url] = line.split('|').map((part) => part.trim())
+      return !title || !isHttpUrl(url)
+    })
 }
 
 function isHttpUrl(value) {
@@ -135,7 +152,9 @@ function clampInteger(value, min, max, fallback) {
 
 async function readArticles() {
   const registrySource = await fs.readFile(registryPath, 'utf8')
-  return [...registrySource.matchAll(/^\s+slug:\s*['"]([^'"]+)['"]/gm)].map((match) => match[1]).sort()
+  return [...registrySource.matchAll(/^\s+slug:\s*['"]([^'"]+)['"]/gm)]
+    .map((match) => match[1])
+    .sort()
 }
 
 async function createArticle(input) {
@@ -158,7 +177,12 @@ async function createArticle(input) {
   try {
     await fs.writeFile(articlePath, toArticleModule(value), { encoding: 'utf8', flag: 'wx' })
   } catch (error) {
-    if (error?.code === 'EEXIST') return { ok: false, status: 409, errors: ['يوجد مقال بهذا المعرّف بالفعل. اختر معرّفًا آخر.'] }
+    if (error?.code === 'EEXIST')
+      return {
+        ok: false,
+        status: 409,
+        errors: ['يوجد مقال بهذا المعرّف بالفعل. اختر معرّفًا آخر.'],
+      }
     throw error
   }
   try {
@@ -168,7 +192,12 @@ async function createArticle(input) {
     throw error
   }
 
-  return { ok: true, slug: value.slug, articlePath: path.relative(projectRoot, articlePath), registryPath: path.relative(projectRoot, registryPath) }
+  return {
+    ok: true,
+    slug: value.slug,
+    articlePath: path.relative(projectRoot, articlePath),
+    registryPath: path.relative(projectRoot, registryPath),
+  }
 }
 
 async function readBody(request) {
@@ -182,7 +211,10 @@ async function readBody(request) {
 
 function sendJson(response, status, payload) {
   const body = JSON.stringify(payload)
-  response.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' })
+  response.writeHead(status, {
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store',
+  })
   response.end(body)
 }
 
@@ -192,7 +224,13 @@ async function requestHandler(request, response) {
     ['/', { path: editorHtmlPath, type: 'text/html; charset=utf-8' }],
     ['/article-editor.css', { path: editorCssPath, type: 'text/css; charset=utf-8' }],
     ['/article-editor.js', { path: editorJsPath, type: 'text/javascript; charset=utf-8' }],
-    ['/src/styles/tokens.css', { path: path.join(projectRoot, 'src', 'styles', 'tokens.css'), type: 'text/css; charset=utf-8' }],
+    [
+      '/src/styles/tokens.css',
+      {
+        path: path.join(projectRoot, 'src', 'styles', 'tokens.css'),
+        type: 'text/css; charset=utf-8',
+      },
+    ],
     ['/athar_logo_without_wordmark.png', { path: logoMarkPath, type: 'image/png' }],
   ])
   const asset = staticAssets.get(url.pathname)
@@ -223,7 +261,8 @@ export function startServer() {
   const server = http.createServer((request, response) => {
     void requestHandler(request, response).catch((error) => {
       console.error(error)
-      if (!response.headersSent) sendJson(response, 500, { ok: false, errors: ['تعذر معالجة الطلب.'] })
+      if (!response.headersSent)
+        sendJson(response, 500, { ok: false, errors: ['تعذر معالجة الطلب.'] })
       else response.end()
     })
   })
