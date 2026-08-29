@@ -60,3 +60,39 @@ npm run build
 ## المراجعة
 
 نراجع دقة المحتوى وسلامة مصادره، ثم صحة الكود، وإمكانية الوصول، والأداء، وحجم الحزمة. الملاحظات موجهة إلى التغيير لا إلى صاحبه، وتهدف إلى إبقاء أثر واضحًا وسهل الصيانة.
+
+## Contributing in English
+
+Athar is an Arabic-first project, but contributors may use English for issues, pull requests, code, and technical discussions. Keep user-facing product copy and article content in clear Arabic unless the change specifically adds translation support.
+
+### Before you start
+
+- Search existing issues before opening a new one.
+- Open an issue before implementing a large change.
+- Keep each pull request focused on one goal.
+- Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+### Local development
+
+Use Node.js 26 or newer:
+
+```bash
+npm install
+npm run dev
+npm run lint
+npm run format:check
+npm test
+npm run build
+```
+
+Use `npm run article:editor` to create an article locally. Review the preview and check the generated module and `src/data/registry.ts` entry before submitting it.
+
+### Article contributions
+
+Start with `src/articles/_template.ts` or the local editor. Use a unique lowercase English slug with hyphens, such as `prophet-muhammad-birth`. Include a concise summary, category, tags, realistic reading time, direct sources, and descriptive image alt text. Use `h2` followed by `h3` headings so the table of contents works correctly.
+
+### Pull requests
+
+Explain the problem, the change, and how you verified it. Link the related issue when applicable, include screenshots for visible changes, and list sources for historical content. Preserve RTL support, keyboard navigation, semantic HTML, hash routes, and lazy article loading.
+
+For security reports, follow [SECURITY.md](SECURITY.md) and do not use a public issue for sensitive information.

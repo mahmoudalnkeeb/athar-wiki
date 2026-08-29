@@ -3,6 +3,21 @@
 [![CI](https://github.com/mahmoudalnkeeb/athar-wiki/actions/workflows/ci.yml/badge.svg)](https://github.com/mahmoudalnkeeb/athar-wiki/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+## English
+
+Athar is an open Arabic-first wiki about Islamic history. It is a lightweight static site that lazy-loads articles, works well on slow connections, and can run without a dedicated server.
+
+The repository currently includes one sourced article. Contributors can add research-backed articles, improve the interface, or work on the local publishing tools. See the [English contribution guide](CONTRIBUTING.md#contributing-in-english).
+
+Requires Node.js 26 or newer. Quick start:
+
+```bash
+npm install
+npm run dev
+```
+
+Run `npm test`, `npm run lint`, `npm run format:check`, and `npm run build` before opening a pull request. Historical additions must include direct, verifiable sources.
+
 أثر موسوعة عربية مفتوحة عن التاريخ الإسلامي. تعرض المقالات في واجهة ثابتة خفيفة، وتحمّل كل مقال عند الطلب، لذلك تبقى مناسبة للاتصالات الضعيفة وتعمل دون خادم خاص.
 
 المحتوى عربي أولًا، والمنتج مبني ليكون سهل القراءة وسهل الإضافة في الوقت نفسه. يضم المستودع حاليًا مقالًا موثقًا، ويمكن للمساهمين إضافة مقالات جديدة أو تحسين الواجهة وأدوات النشر.
