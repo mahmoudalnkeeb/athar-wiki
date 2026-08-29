@@ -60,9 +60,11 @@ export function wikiFeaturedCard(
 ): string {
   const visual = entry.cover
     ? `<img data-src="${escapeAttr(entry.cover)}" alt="" loading="lazy" decoding="async" width="640" height="420" class="wiki-featured-card__cover img-placeholder" />`
-    : `<span class="wiki-featured-card__mark" aria-hidden="true">◆</span>`
-  const visualClass = visualClassForCategory(entry.category)
-
+    : `<span class="wiki-featured-card__art" aria-hidden="true">
+        <span class="wiki-featured-card__starburst">
+          <span class="wiki-featured-card__starburst-cover"></span>
+        </span>
+      </span>`
   return `
     <article class="wiki-featured-card" data-slug="${escapeAttr(entry.slug)}">
       <a class="wiki-featured-card__link" href="#/wiki/${encodeURIComponent(entry.slug)}"
@@ -77,7 +79,7 @@ export function wikiFeaturedCard(
           <p class="wiki-featured-card__summary">${escapeHtml(entry.summary)}</p>
           <span class="wiki-featured-card__cta">اقرأ المقال <span aria-hidden="true">←</span></span>
         </div>
-        <div class="wiki-featured-card__visual ${entry.cover ? '' : `wiki-featured-card__visual--placeholder ${visualClass}`}"${entry.cover ? '' : ` data-category-visual="${escapeAttr(entry.category)}"`}>${visual}</div>
+        <div class="wiki-featured-card__visual ${entry.cover ? '' : 'wiki-featured-card__visual--placeholder'}">${visual}</div>
       </a>
     </article>
   `
@@ -108,15 +110,6 @@ export function attachCardPrefetch(
 
 function escapeAttr(s: string): string {
   return escapeHtml(s)
-}
-
-function visualClassForCategory(category: string): string {
-  const value = category.trim()
-  if (value.includes('علم')) return 'wiki-featured-card__visual--scholars'
-  if (value.includes('مدين') || value.includes('حاضر')) return 'wiki-featured-card__visual--cities'
-  if (value.includes('دول') || value.includes('سلال')) return 'wiki-featured-card__visual--states'
-  if (value.includes('سيرة')) return 'wiki-featured-card__visual--biography'
-  return 'wiki-featured-card__visual--default'
 }
 
 function formatCardDate(iso: string): string {

@@ -610,7 +610,8 @@
 }
 .wiki-featured-card__link {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(220px, 1fr);
+  grid-template-areas: 'body visual';
+  grid-template-columns: minmax(0, 2.4fr) minmax(180px, 0.9fr);
   min-height: 248px;
   overflow: hidden;
   color: inherit;
@@ -633,6 +634,7 @@
   outline-offset: 3px;
 }
 .wiki-featured-card__body {
+  grid-area: body;
   display: grid;
   align-content: center;
   gap: var(--space-3);
@@ -669,6 +671,8 @@
   transform: translateX(-3px);
 }
 .wiki-featured-card__visual {
+  grid-area: visual;
+  position: relative;
   min-height: 248px;
   display: grid;
   place-items: center;
@@ -676,90 +680,155 @@
   background: var(--color-bg-subtle);
 }
 .wiki-featured-card__visual--placeholder {
-  position: relative;
   background: var(--islamic-paper);
 }
-.wiki-featured-card__visual--placeholder::before,
-.wiki-featured-card__visual--placeholder::after {
-  content: '';
+.wiki-featured-card__art {
   position: absolute;
-  border: 1px solid var(--islamic-gold-300);
-  opacity: 0.8;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--color-bg-paper);
 }
-.wiki-featured-card__visual--default::before {
-  inline-size: 62%;
-  block-size: 62%;
-  transform: rotate(45deg);
+.wiki-featured-card__starburst {
+  --starburst-outline: polygon(
+    100% 50%,
+    85.11% 64.54%,
+    85.36% 85.36%,
+    64.54% 85.11%,
+    50% 100%,
+    35.46% 85.11%,
+    14.64% 85.36%,
+    14.89% 64.54%,
+    0% 50%,
+    14.89% 35.46%,
+    14.64% 14.64%,
+    35.46% 14.89%,
+    50% 0%,
+    64.54% 14.89%,
+    85.36% 14.64%,
+    85.11% 35.46%,
+    100% 50%,
+    85.11% 64.54%,
+    calc(85.11% - 7.02px) calc(64.54% - 2.91px),
+    calc(100% - 10px) 50%,
+    calc(85.11% - 7.02px) calc(35.46% + 2.91px),
+    calc(85.36% - 7.07px) calc(14.64% + 7.07px),
+    calc(64.54% - 2.91px) calc(14.89% + 7.02px),
+    50% 10px,
+    calc(35.46% + 2.91px) calc(14.89% + 7.02px),
+    calc(14.64% + 7.07px) calc(14.64% + 7.07px),
+    calc(14.89% + 7.02px) calc(35.46% + 2.91px),
+    10px 50%,
+    calc(14.89% + 7.02px) calc(64.54% - 2.91px),
+    calc(14.64% + 7.07px) calc(85.36% - 7.07px),
+    calc(35.46% + 2.91px) calc(85.11% - 7.02px),
+    50% calc(100% - 10px),
+    calc(64.54% - 2.91px) calc(85.11% - 7.02px),
+    calc(85.36% - 7.07px) calc(85.36% - 7.07px),
+    calc(85.11% - 7.02px) calc(64.54% - 2.91px),
+    calc(100% - 10px) 50%
+  );
+  --starburst-shape: polygon(
+    100% 50%,
+    85.11% 64.54%,
+    85.36% 85.36%,
+    64.54% 85.11%,
+    50% 100%,
+    35.46% 85.11%,
+    14.64% 85.36%,
+    14.89% 64.54%,
+    0% 50%,
+    14.89% 35.46%,
+    14.64% 14.64%,
+    35.46% 14.89%,
+    50% 0%,
+    64.54% 14.89%,
+    85.36% 14.64%,
+    85.11% 35.46%
+  );
+  --starburst-spiked-outline: polygon(
+    50% 0%,
+    64.16% 15.82%,
+    85.36% 14.64%,
+    84.18% 35.84%,
+    100% 50%,
+    84.18% 64.16%,
+    85.36% 85.36%,
+    64.16% 84.18%,
+    50% 100%,
+    35.84% 84.18%,
+    14.64% 85.36%,
+    15.82% 64.16%,
+    0% 50%,
+    15.82% 35.84%,
+    14.64% 14.64%,
+    35.84% 15.82%,
+    50% 0%,
+    50% 5%,
+    37.26% 19.24%,
+    18.18% 18.18%,
+    19.24% 37.26%,
+    5% 50%,
+    19.24% 62.74%,
+    18.18% 81.82%,
+    37.26% 80.76%,
+    50% 95%,
+    62.74% 80.76%,
+    81.82% 81.82%,
+    80.76% 62.74%,
+    95% 50%,
+    80.76% 37.26%,
+    81.82% 18.18%,
+    62.74% 19.24%,
+    50% 5%
+  );
+  position: relative;
+  width: min(82%, 13rem);
+  aspect-ratio: 1;
 }
-.wiki-featured-card__visual--default::after {
-  inline-size: 42%;
-  block-size: 42%;
-  transform: rotate(45deg);
+.wiki-featured-card__starburst::before,
+.wiki-featured-card__starburst::after,
+.wiki-featured-card__starburst-cover {
+  position: absolute;
+  inset: 0;
+  display: block;
 }
-.wiki-featured-card__visual--scholars::before {
-  inline-size: 58%;
-  block-size: 58%;
-  transform: rotate(45deg);
+.wiki-featured-card__starburst::before,
+.wiki-featured-card__starburst::after {
+  content: '';
+  background: linear-gradient(
+    135deg,
+    var(--color-border-accent) 0 18%,
+    var(--color-accent) 42% 60%,
+    var(--color-accent-hover)
+  );
+  clip-path: var(--starburst-outline);
+  filter: drop-shadow(-1px -1px 0 var(--color-border-accent))
+    drop-shadow(1px 1px 0 var(--color-accent-hover))
+    drop-shadow(0 2px 2px color-mix(in srgb, var(--color-text) 18%, transparent));
 }
-.wiki-featured-card__visual--scholars::after {
-  inline-size: 72%;
-  block-size: 1px;
-  border: 0;
-  background: var(--islamic-gold-300);
-  transform: rotate(-18deg);
+.wiki-featured-card__starburst::before {
+  clip-path: var(--starburst-spiked-outline);
+  opacity: 0.52;
+  transform: rotate(22.5deg) scale(0.82);
 }
-.wiki-featured-card__visual--cities::before {
-  inline-size: 68%;
-  block-size: 48%;
-  transform: rotate(0);
-  border-inline-start: 2px solid var(--islamic-gold-300);
-  border-block-end: 2px solid var(--islamic-gold-300);
+.wiki-featured-card__starburst-cover {
+  z-index: 1;
+  background: var(--color-bg-paper);
+  clip-path: var(--starburst-shape);
+  transform: scale(0.76);
 }
-.wiki-featured-card__visual--cities::after {
-  inline-size: 44%;
-  block-size: 70%;
-  transform: rotate(0);
-  border-inline-end: 1px solid var(--islamic-gold-300);
-  border-block-start: 1px solid var(--islamic-gold-300);
-}
-.wiki-featured-card__visual--states::before {
-  inline-size: 72%;
-  block-size: 36%;
-  transform: rotate(0);
-  border-inline: 0;
-  border-block: 1px solid var(--islamic-gold-300);
-}
-.wiki-featured-card__visual--states::after {
-  inline-size: 56%;
-  block-size: 56%;
-  transform: rotate(0);
-  border-inline: 0;
-  border-block: 1px solid var(--islamic-gold-300);
-}
-.wiki-featured-card__visual--biography::before {
-  inline-size: 64%;
-  block-size: 64%;
-  transform: rotate(35deg);
-  border-radius: var(--radius-arch);
-}
-.wiki-featured-card__visual--biography::after {
-  inline-size: 42%;
-  block-size: 42%;
-  transform: rotate(35deg);
-  border-radius: var(--radius-arch);
+.wiki-featured-card__starburst::after {
+  z-index: 2;
+  opacity: 0.9;
+  transform: scale(0.76);
 }
 .wiki-featured-card__cover {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.wiki-featured-card__mark {
-  position: relative;
-  z-index: 1;
-  color: var(--islamic-gold-500);
-  font-size: 1.6rem;
-}
-
 /* ── Article Page ── */
 .wiki-reading-progress {
   display: none;
@@ -1672,35 +1741,6 @@
   .home-section--articles > .wiki-grid {
     grid-template-columns: 1fr;
   }
-  .wiki-featured-card__link {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto;
-  }
-  .wiki-featured-card__visual {
-    inline-size: 100%;
-    block-size: clamp(180px, 52vw, 210px);
-    min-height: 0;
-    max-height: none;
-    aspect-ratio: auto;
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-  .wiki-featured-card__body {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    padding: var(--space-6);
-  }
-  .wiki-featured-card__title {
-    font-size: clamp(1.5rem, 6vw, 1.75rem);
-    line-height: 1.4;
-  }
-  .wiki-featured-card__summary {
-    font-size: var(--text-base);
-    line-height: 1.75;
-  }
-  .wiki-featured-card__cta {
-    font-size: var(--text-base);
-  }
   .home-section--articles > .wiki-grid .wiki-card__media {
     display: none;
   }
@@ -1855,6 +1895,33 @@
   }
   [data-route='article'] .wiki-toc--main {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .wiki-featured-card__link {
+    grid-template-areas: 'visual' 'body';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .wiki-featured-card__visual {
+    inline-size: 100%;
+    block-size: clamp(180px, 52vw, 240px);
+    min-height: 0;
+  }
+  .wiki-featured-card__body {
+    padding: var(--space-6);
+  }
+  .wiki-featured-card__title {
+    font-size: clamp(1.5rem, 6vw, 1.75rem);
+    line-height: 1.4;
+  }
+  .wiki-featured-card__summary {
+    font-size: var(--text-base);
+    line-height: 1.75;
+  }
+  .wiki-featured-card__cta {
+    font-size: var(--text-base);
   }
 }
 
