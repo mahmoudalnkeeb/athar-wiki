@@ -97,6 +97,10 @@ public/              الشعار وملفات الاستضافة الثابتة
 
 للبلاغات الأمنية، اتبع [سياسة الأمان](SECURITY.md). وللمعايير البصرية والتفاعلية، راجع [DESIGN.md](DESIGN.md).
 
+## English license
+
+The application source code is licensed under the [MIT License](LICENSE). Original articles and documentation are licensed under [CC BY-SA 4.0](LICENSE-CONTENT). Third-party sources, quotations, images, fonts, logos, and trademarks may have separate terms; follow the notices attached to them.
+
 ## الترخيص
 
-هذا المشروع متاح تحت [ترخيص MIT](LICENSE).
+كود التطبيق متاح تحت [ترخيص MIT](LICENSE). المقالات والوثائق الأصلية متاحة تحت [رخصة المشاع الإبداعي: النسبة-المشاركة بالمثل 4.0](LICENSE-CONTENT). قد تخضع المصادر والاقتباسات والصور والخطوط والشعارات والعلامات التجارية التابعة للغير لشروط مختلفة؛ اتبع الإشعارات المرفقة بها.

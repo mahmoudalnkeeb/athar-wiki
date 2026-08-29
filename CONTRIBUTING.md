@@ -91,8 +91,14 @@ Use `npm run article:editor` to create an article locally. Review the preview an
 
 Start with `src/articles/_template.ts` or the local editor. Use a unique lowercase English slug with hyphens, such as `prophet-muhammad-birth`. Include a concise summary, category, tags, realistic reading time, direct sources, and descriptive image alt text. Use `h2` followed by `h3` headings so the table of contents works correctly.
 
+Original articles and documentation contributed to the repository are published under [CC BY-SA 4.0](LICENSE-CONTENT). Submit only work you created or have permission to publish. Do not copy text, images, fonts, or other material from a source unless its license permits the intended use; preserve the required attribution and license notice.
+
 ### Pull requests
 
 Explain the problem, the change, and how you verified it. Link the related issue when applicable, include screenshots for visible changes, and list sources for historical content. Preserve RTL support, keyboard navigation, semantic HTML, hash routes, and lazy article loading.
 
 For security reports, follow [SECURITY.md](SECURITY.md) and do not use a public issue for sensitive information.
+
+## Licensing
+
+The application source code remains under the [MIT License](LICENSE). Content licensing is documented separately in [LICENSE-CONTENT.md](LICENSE-CONTENT.md). The project does not relicense third-party material, and contributors should identify separate terms clearly in the relevant article or asset documentation.

@@ -47,3 +47,7 @@ Use short Conventional Commit-style subjects, such as `fix(article): improve mob
 ## Security & Configuration
 
 Never commit secrets, personal data, or unverified historical claims. Report vulnerabilities privately according to [SECURITY.md](SECURITY.md), not through a public issue. Keep `SITE_URL` out of application code and set it only in the build environment or hosting configuration.
+
+## Licensing
+
+The application code is MIT-licensed; original articles and documentation use [CC BY-SA 4.0](LICENSE-CONTENT.md). Contribute only work you own or have permission to publish. Keep third-party source, image, font, logo, and trademark terms and attribution intact.
